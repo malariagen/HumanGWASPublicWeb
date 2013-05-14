@@ -1,0 +1,121 @@
+{
+    "MetaData": {
+        "databases": {
+            "Annotation": {
+                "url": "/mnt/storage4/malariagen/human/website/data/2013-05-08/analysis.sqlite",
+                "tables": {
+                    "Annotation": {
+                        "tableName": "refGeneConverted",
+                        "chromosomeColumn": "chromid",
+                        "startPositionColumn": "fstart",
+                        "stopPositionColumn": "fstop",
+                        "idColumn": "fid",
+                        "nameColumn": "fname"
+                    }
+                }
+            },
+            "Analysis": {
+                "url": "/mnt/storage4/malariagen/human/website/data/2013-05-08/analysis.sqlite",
+                "tables": {
+                    "PlotValues": {
+                        "tableName": "GenomeBrowserPlotVariables"
+                    },
+                    "SNPInfo": {
+                        "tableName": "GenomeBrowserData",
+                        "chromosomeColumn": "chromosome",
+                        "positionColumn": "position",
+                        "snpIdColumn": "rsid"
+                    },
+                    "SNPDetails": {
+                        "tableName": "MetaAnalysisView",
+                        "chromosomeColumn": "chromosome",
+                        "positionColumn": "position",
+                        "snpIdColumn": "rsid"
+                    }
+                }
+            }
+        },
+        "countries": [ "Gambia", "Mali", "BurkinaFaso", "Ghana", "Cameroon", "Kenya", "Malawi", "Tanzania" ],
+        "chromosomes": [
+            { "id": "01", "name": "01", "len": 250 },
+            { "id": "02", "name": "02", "len": 245 },
+            { "id": "03", "name": "03", "len": 205 },
+            { "id": "04", "name": "04", "len": 195 },
+            { "id": "05", "name": "05", "len": 185 },
+            { "id": "06", "name": "06", "len": 175 },
+            { "id": "07", "name": "07", "len": 165 },
+            { "id": "08", "name": "08", "len": 150 },
+            { "id": "09", "name": "09", "len": 145 },
+            { "id": "10", "name": "10", "len": 140 },
+            { "id": "11", "name": "11", "len": 140 },
+            { "id": "12", "name": "12", "len": 135 },
+            { "id": "13", "name": "13", "len": 120 },
+            { "id": "14", "name": "14", "len": 110 },
+            { "id": "15", "name": "15", "len": 105 },
+            { "id": "16", "name": "16", "len": 95 },
+            { "id": "17", "name": "17", "len": 85 },
+            { "id": "18", "name": "18", "len": 80 },
+            { "id": "19", "name": "19", "len": 70 },
+            { "id": "20", "name": "20", "len": 70 },
+            { "id": "21", "name": "21", "len": 55 },
+            { "id": "22", "name": "22", "len": 52 }
+        ],
+        "MetaAnalysisModelGroups": [
+            {
+                "name": "Africa-wide",
+                "models": [
+                    "fixed-effect/sd=0.2",
+                    "rho=0.99/sd=0.2",
+                    "rho=0.95/sd=0.2",
+                    "rho=0.9/sd=0.2",
+                    "rho=0.75/sd=0.2",
+                    "rho=0.5/sd=0.2",
+                    "rho=0.25/sd=0.2",
+                    "rho=0.2/sd=0.2",
+                    "independent-effect/sd=0.2",
+                    "fixed-effect/sd=0.75",
+                    "rho=0.99/sd=0.75",
+                    "rho=0.95/sd=0.75",
+                    "rho=0.9/sd=0.75",
+                    "rho=0.75/sd=0.75",
+                    "rho=0.5/sd=0.75",
+                    "rho=0.25/sd=0.75",
+                    "rho=0.2/sd=0.75",
+                    "independent-effect/sd=0.75"
+                ]
+            },
+            {
+                "name": "Group-specific",
+                "models": [
+                    "West-africa-specific/rho=0.9/sd=0.2",
+                    "West-africa-specific/rho=0.9/sd=0.75",
+                    "East-africa-specific/rho=0.9/sd=0.2",
+                    "East-africa-specific/rho=0.9/sd=0.75",
+                    "east-west-split/sd=0.2",
+                    "east-west-split/sd=0.75"
+                ]
+            },
+            {
+                "name": "Population-specific",
+                "models": [
+                    "Mali-specific/sd=0.2",
+                    "Mali-specific/sd=0.75",
+                    "Gambia-specific/sd=0.2",
+                    "Gambia-specific/sd=0.75",
+                    "BurkinaFaso-specific/sd=0.2",
+                    "BurkinaFaso-specific/sd=0.75",
+                    "Ghana-specific/sd=0.2",
+                    "Ghana-specific/sd=0.75",
+                    "Cameroon-specific/sd=0.2",
+                    "Cameroon-specific/sd=0.75",
+                    "Kenya-specific/sd=0.2",
+                    "Kenya-specific/sd=0.75",
+                    "Malawi-specific/sd=0.2",
+                    "Malawi-specific/sd=0.75",
+                    "Tanzania-specific/sd=0.2",
+                    "Tanzania-specific/sd=0.75"
+                ]
+            }
+        ]
+    }
+}

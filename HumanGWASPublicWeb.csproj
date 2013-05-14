@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DE9955B9-46D8-4EAC-910B-078EF61BA639}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HumanGWASPublicWeb</RootNamespace>
+    <AssemblyName>HumanGWASPublicWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="webapp\Bitmaps\datagrid2.png" />
+    <Content Include="webapp\Bitmaps\dna3.png" />
+    <Content Include="webapp\Bitmaps\genotypes.png" />
+    <Content Include="webapp\Bitmaps\home.png" />
+    <Content Include="webapp\Bitmaps\malariagen_logo.png" />
+    <Content Include="webapp\Bitmaps\ProgressAnimation3.gif" />
+    <Content Include="webapp\Bitmaps\world2.png" />
+    <Content Include="webapp\HumanGWASPublicWeb.htm" />
+    <Content Include="webapp\scripts\async.js" />
+    <Content Include="webapp\scripts\DQX\base64.js" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\adddown.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\addright.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrow3left.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrow3right.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrow4down.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrow4right.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrow4up.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrow5down.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrow5left.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrow5right.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\arrowdown.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\barback1a.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\barback1b.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\barback2a.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\barback_blue.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\cancel.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\close.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\close2.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\diagpattern.jpg" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\download.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\first.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\info1.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\info2.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\info3.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\info4.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\lastpage.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\lesslines.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\link1.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\link2.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\link3.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\magnif1.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\magnif2.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\morelines.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\next.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\ok.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\pin0.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\pin2.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\pin3.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\pin4.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\previous.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\scrolldown3.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\scrollup3.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\TitleBarBack - Copy.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\TitleBarBack.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\TitleSubBarBack.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\zoomin1.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\zoomin1H.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\zoomin1V.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\zoomout1.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\zoomout1H.png" />
+    <Content Include="webapp\scripts\DQX\Bitmaps\zoomout1V.png" />
+    <Content Include="webapp\scripts\DQX\ChannelPlot\ChannelAnnotation.js" />
+    <Content Include="webapp\scripts\DQX\ChannelPlot\ChannelCanvas.js" />
+    <Content Include="webapp\scripts\DQX\ChannelPlot\ChannelPlotter.js" />
+    <Content Include="webapp\scripts\DQX\ChannelPlot\ChannelSequence.js" />
+    <Content Include="webapp\scripts\DQX\ChannelPlot\ChannelSnps.js" />
+    <Content Include="webapp\scripts\DQX\ChannelPlot\ChannelYVals.js" />
+    <Content Include="webapp\scripts\DQX\ChannelPlot\GenomePlotter.js" />
+    <Content Include="webapp\scripts\DQX\Controls.js" />
+    <Content Include="webapp\scripts\DQX\DataDecoders.js" />
+    <Content Include="webapp\scripts\DQX\DataFetcher\DataFetcherAnnotation.js" />
+    <Content Include="webapp\scripts\DQX\DataFetcher\DataFetcherFile.js" />
+    <Content Include="webapp\scripts\DQX\DataFetcher\DataFetchers.js" />
+    <Content Include="webapp\scripts\DQX\DataFetcher\DataFetcherSnp.js" />
+    <Content Include="webapp\scripts\DQX\DataFetcher\DataFetcherSummary.js" />
+    <Content Include="webapp\scripts\DQX\DataFetcher\DQXDataFetcherSummary.js" />
+    <Content Include="webapp\scripts\DQX\data\countries.js" />
+    <Content Include="webapp\scripts\DQX\DocEl.js" />
+    <Content Include="webapp\scripts\DQX\Documentation.js" />
+    <Content Include="webapp\scripts\DQX\DQXBootstrap.js" />
+    <Content Include="webapp\scripts\DQX\DQXCommon.css" />
+    <Content Include="webapp\scripts\DQX\Externals\d3.js" />
+    <Content Include="webapp\scripts\DQX\Externals\d3.v3.min.js" />
+    <Content Include="webapp\scripts\DQX\Externals\jquery-1.4.1.js" />
+    <Content Include="webapp\scripts\DQX\Externals\jquery-1.8.js" />
+    <Content Include="webapp\scripts\DQX\Externals\jquery.js" />
+    <Content Include="webapp\scripts\DQX\Externals\modernizr.custom.43738.js" />
+    <Content Include="webapp\scripts\DQX\FrameList.js" />
+    <Content Include="webapp\scripts\DQX\FramePanel.js" />
+    <Content Include="webapp\scripts\DQX\FrameTree.js" />
+    <Content Include="webapp\scripts\DQX\Framework.js" />
+    <Content Include="webapp\scripts\DQX\HistoryManager.js" />
+    <Content Include="webapp\scripts\DQX\Map.js" />
+    <Content Include="webapp\scripts\DQX\Markdown.js" />
+    <Content Include="webapp\scripts\DQX\Msg.js" />
+    <Content Include="webapp\scripts\DQX\Popup.js" />
+    <Content Include="webapp\scripts\DQX\PopupFrame.js" />
+    <Content Include="webapp\scripts\DQX\QueryBuilder.js" />
+    <Content Include="webapp\scripts\DQX\QueryTable.js" />
+    <Content Include="webapp\scripts\DQX\Scroller.js" />
+    <Content Include="webapp\scripts\DQX\SQL.js" />
+    <Content Include="webapp\scripts\DQX\StaticDocView.js" />
+    <Content Include="webapp\scripts\DQX\SVG.js" />
+    <Content Include="webapp\scripts\DQX\Utils.js" />
+    <Content Include="webapp\scripts\DQX\Wizard.js" />
+    <Content Include="webapp\scripts\Local.example\_SetAnalyticsId.js" />
+    <Content Include="webapp\scripts\Local.example\_SetServerUrl.js" />
+    <Content Include="webapp\scripts\Local\_SetAnalyticsId.js" />
+    <Content Include="webapp\scripts\Local\_SetServerUrl.js" />
+    <Content Include="webapp\scripts\main.js" />
+    <Content Include="webapp\scripts\MetaData.js" />
+    <Content Include="webapp\scripts\MetaDataDynamic.js" />
+    <Content Include="webapp\scripts\Page.js" />
+    <Content Include="webapp\scripts\PlayGround.js" />
+    <Content Include="webapp\scripts\require.js" />
+    <Content Include="webapp\scripts\ShowGenePopup.js" />
+    <Content Include="webapp\scripts\ShowSNPPopup.js" />
+    <Content Include="webapp\scripts\Views\Intro.js" />
+    <Content Include="webapp\scripts\Views\VariantTable.js" />
+    <Content Include="webapp\Specifics.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="webapp\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>53834</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Expires" content="-1" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" >
+    <link rel="shortcut icon" href="http://www.malariagen.net/sites/all/themes/malariagen/favicon.ico" type="image/x-icon" />
+    <title></title>
+    <link href="scripts/DQX/DQXCommon.css" rel="stylesheet" type="text/css" />
+    <link href="Specifics.css" rel="stylesheet" type="text/css" />
+
+    <!-- Introduce a version number to avoid cache problems between versions-->
+    <script type="text/javascript">
+        versionString = "25";
+        _debug_ = true;
+    </script>
+
+    <script src="scripts/Local/_SetServerUrl.js?<?=time()?" type="text/javascript"></script>
+    <script src="scripts/DQX/DQXBootstrap.js?<?=time()?" type="text/javascript"></script>
+    <script data-main="scripts/main.js" src="scripts/require.js" type="text/javascript"></script>
+    <script type="text/javascript" src="scripts/Local/_SetAnalyticsId.js"></script>
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', googleAnalyticsId]);
+    setAnalyticsOptions(localhost, _gaq);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+  </script>
+</head>
+<body style="margin:0px;">
+
+<div id="Div1" style="width:100%;height:100%;background-color:rgb(255,255,255);">
+<div style="position:fixed;top:50%;left:50%;margin-top:-100px;margin-left:-30px">
+<h2>Loading page...</h2>
+<img src="Bitmaps/ProgressAnimation3.gif" alt="Progress animation" />
+</div>
+</div>
+<!--The following div needs to be present for system usage:-->
+<div id="DQXUtilContainer" ></div>
+
+<div id="HeaderIntroPanel" style="display:none;background-color:green">
+<div style="width:100%;height:100%;background-color:white">
+<a href="http://www.malariagen.net"><img src="Bitmaps/malariagen_logo.png" alt="MalariaGEN logo" align="top" style="border:0px"/></a>
+<!--
+<div style="display:inline-block;margin-left:16px;color:rgb(15,0,135);font-size:12pt; font-weight:900;font-family: Verdana, Arial, Helvetica, sans-serif;">
+<i>Plasmodium falciparum</i><br/>population genomics
+</div>
+-->
+<br />
+<!-- bread crumbs  -->
+
+</div></div>
+
+<div id="IntroPanel" style="display:none">
+<h2>Human GWAS data for association with Malaria</h2>
+To begin, select one of the options below. To return to this page at any time, use the Start Page button.
+</div>
+
+<div id="Snippets" style="display:none">
+<span id='IntroSamples'>
+This box contains a definition of a sample set, and how this is used in the analysis.<br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ante nunc, cursus sit amet faucibus eu, placerat vitae dolor.
+</span>
+<span id='IntroVariants'>
+</span>
+</div>
+
+<div id="HelpSamplesView">
+<h2>Sample Sets</h2>
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sit amet ante diam, quis sodales massa. Morbi in ligula a lorem eleifend tempus. Praesent luctus dolor vehicula purus pellentesque in faucibus dolor feugiat. Nullam imperdiet quam at sapien posuere posuere. In fringilla bibendum aliquam. Praesent euismod rutrum porta. Nunc a quam in tortor adipiscing ullamcorper. Suspendisse nec dolor et risus facilisis condimentum. Nam suscipit urna non arcu vulputate imperdiet.
+ <p />
+Nam ac turpis eget justo facilisis feugiat. Nunc nisl ligula, posuere sit amet varius sed, fermentum sit amet justo. Curabitur ultricies, est rutrum aliquet feugiat, leo dui consectetur enim, id commodo eros dui at turpis. Nulla tincidunt eros id erat mollis sodales. Donec semper dolor tempor turpis ullamcorper vestibulum. Nunc urna ipsum, blandit a egestas in, convallis in orci. Cras a augue nec odio porttitor porta eget sed neque. Phasellus malesuada tincidunt dui, sed aliquet lorem commodo et.
+ <p />
+Fusce nec euismod tortor. Mauris ultricies pharetra pellentesque. Aliquam euismod euismod nibh, at mattis risus ultrices vel. Vivamus varius tempor arcu vitae aliquam. Cras mauris diam, egestas at ultrices consectetur, accumsan cursus quam. Aliquam elit odio, rhoncus at consequat ac, sodales sit amet felis. Sed volutpat porttitor vulputate. Nunc auctor justo quis orci adipiscing sodales. Etiam in libero id eros volutpat malesuada. Ut vitae leo dolor, eu pharetra neque. Morbi at sapien odio, sed sagittis risus. Duis ornare interdum iaculis. Mauris congue nisi a mauris posuere bibendum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed ultricies tincidunt felis, lacinia tincidunt eros tincidunt nec. Nunc quis eros justo.
+</div>
+</body>
+</html>

@@ -24,14 +24,17 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                 that.createPanels = function () {
                     this.theTableFetcher = new DataFetcher.Table(serverUrl,
-                        MetaData.databases.Analysis.url,
-                        MetaData.databases.Analysis.tables.SNPDetails.tableName);
+                        MetaData.database,
+                        MetaData.tableSnpData);
                     this.theTableFetcher.showDownload = true;
-                    this.theTableFetcher.positionField = "position";
+                    this.theTableFetcher.positionField = "pos";
                     this.panelTable = QueryTable.Panel(this.frameTable, this.theTableFetcher, { leftfraction: 50 });
 
-                    var colinfo = this.theTableFetcher.addFetchColumn('rsid', 'String', "rgb(0,0,0)");
-                    var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('rsid', 'rsid', 0));
+                    var colinfo = this.theTableFetcher.addFetchColumn('snpid', 'String', "rgb(0,0,0)");
+                    var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('snpid', 'snpid', 0));
+
+                    var colinfo = this.theTableFetcher.addFetchColumn('pos', 'IntDiff', "rgb(0,0,0)");
+                    var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('pos', 'pos', 1));
 
                     //we start by defining a query that returns nothing
                     this.theTableFetcher.setUserQuery1(SQL.WhereClause.Trivial());

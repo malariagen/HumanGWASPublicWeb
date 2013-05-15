@@ -1,5 +1,5 @@
-﻿define([DQXSC("Utils"), DQXSC("SQL"), DQXSC("DataFetcher/DataFetchers"), "MetaData"],
-    function (DQX, SQL, DataFetcher, MetaData) {
+﻿define([DQXSC("Utils"), DQXSC("SQL"), DQXSC("DataFetcher/DataFetchers"), DQXSC("Controls"), DQXSC("Popup"), DQXSC("Msg"), "MetaData"],
+    function (DQX, SQL, DataFetcher, Controls, Popup, Msg, MetaData) {
         var MetaDataDynamic = {};
 
         MetaDataDynamic.getStudyInfo = function (studyid) {
@@ -272,27 +272,48 @@
 
             MetaDataDynamic.snpFieldList = [];
 
-            MetaDataDynamic.snpFieldList.push({ id: "snpid", shortName: "[@Snp] pos", name: '[@Snp] position', dataTypeID: "String" });
             MetaDataDynamic.snpFieldList.push({ id: "ref", shortName: "Ref.<br>allele", name: "Reference allele", dataTypeID: "Base" });
             MetaDataDynamic.snpFieldList.push({ id: "nonrref", shortName: "Alt.<br>allele", name: "Non-reference allele", dataTypeID: "Base" });
 
             var frequencyTypeInfo = 'freq';
             $.each(MetaDataDynamic._dataCountries.ID, function (idx, countryID) {
                 var countryName = MetaDataDynamic._dataCountries.Name[idx];
-                MetaDataDynamic.snpFieldList.push({
+                var info = {
                     id: frequencyTypeInfo + "_" + countryID,
                     shortName: frequencyTypeInfo + "<br>" + countryID,
-                    name: frequencyTypeInfo + " " + countryName,
+                    name: 'Allele frequency' + " in " + countryName,
                     comment: frequencyTypeInfo + " in " + countryName,
                     dataTypeID: "AlleleFrequency"
-                });
+                }
+                info.createCustomInfo = function () {
+                    var content2 = '';
+                    var studyCount = 0;
+                    $.each(MetaDataDynamic.studiesList, function (idx, study) {
+                        var isMember = false;
+                        $.each(study.sites, function (idx2, site) { if (site.Country == countryID) isMember = true; });
+                        if (isMember) {
+                            studyCount++;
+                            content2 += '<p>';
+                            var ctrl = Controls.LinkButton('', { smartLink: true, text: study.Title });
+                            ctrl.study = study;
+                            ctrl.setOnChanged(function (id, theControl) {
+                                Popup.closeUnPinnedPopups();
+                                Msg.send({ type: 'ShowStudy' }, theControl.study.ID);
+                            });
+                            content2 += ctrl.renderHtml();
+                        }
+                        content = 'Samples for this population were collected by the following [@' + DQX.pluralise('study', studyCount) + ']:' + content2;
+                    });
+                    return content;
+                }
+                MetaDataDynamic.snpFieldList.push(info);
             });
 
-            $.each(MetaDataDynamic.snpFieldList,function(idx,field) {
-                field.dataType=MGDataType(field.dataTypeID);
+            $.each(MetaDataDynamic.snpFieldList, function (idx, field) {
+                field.dataType = MGDataType(field.dataTypeID);
             });
 
-            var q=0;
+            var q = 0;
         }
 
 

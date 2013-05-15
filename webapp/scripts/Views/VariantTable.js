@@ -1,6 +1,6 @@
 ﻿
-define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Utils"), DQXSC("DataFetcher/DataFetchers"), DQXSC("QueryTable"), "MetaData", "MetaDataDynamic"],
-    function (require, Framework, Controls, Msg, SQL, DocEl, DQX, DataFetcher, QueryTable, MetaData, MetaDataDynamic) {
+define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Popup"), DQXSC("Utils"), DQXSC("DataFetcher/DataFetchers"), DQXSC("QueryTable"), "MetaData", "MetaDataDynamic"],
+    function (require, Framework, Controls, Msg, SQL, DocEl, Popup, DQX, DataFetcher, QueryTable, MetaData, MetaDataDynamic) {
 
         var VariantTableModule = {
 
@@ -29,19 +29,33 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     this.theTableFetcher.showDownload = true;
                     this.theTableFetcher.positionField = "pos";
                     this.panelTable = QueryTable.Panel(this.frameTable, this.theTableFetcher, { leftfraction: 50 });
+                    this.theTableFetcher.setSortOption(SQL.TableSort(['chrom', 'pos']), false);
+
+                    //Listen and react to column header click messages
+                    var msgIDClickHeader = { type: 'ClickHeader', id: this.panelTable.myBaseID };
+                    Msg.listen("", msgIDClickHeader, $.proxy(this._onClickHeader, this));
+
 
                     var colinfo = this.theTableFetcher.addFetchColumn('snpid', 'String', "rgb(0,0,0)");
-                    var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('snpid', 'snpid', 0));
+                    var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('SNP id', 'snpid', 0));
 
-                    var colinfo = this.theTableFetcher.addFetchColumn('pos', 'IntDiff', "rgb(0,0,0)");
-                    var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('pos', 'pos', 1));
+                    var colinfo = this.theTableFetcher.addFetchColumn('chrom', 'String', "rgb(0,0,0)");
+                    var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('Chrom.', 'chrom', 1));
+
+                    var colinfo = this.theTableFetcher.addFetchColumn('pos', 'Int', "rgb(0,0,0)");
+                    var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('Position', 'pos', 1));
+                    comp.makeHyperlinkHeader(msgIDClickHeader, 'Column information');
+                    that.panelTable.myTable.addSortOption('Position', SQL.TableSort(['chrom', 'pos']));
 
                     $.each(MetaDataDynamic.snpFieldList, function (idx, fieldInfo) {
                         var colinfo = that.theTableFetcher.addFetchColumn(fieldInfo.id, fieldInfo.dataType.getDownloadType(), "rgb(0,0,0)");
                         var comp = that.panelTable.myTable.addTableColumn(QueryTable.Column(fieldInfo.shortName, fieldInfo.id, 1));
+                        comp.customInfo = fieldInfo;
                         if (fieldInfo.dataType.getBackColorFunction())
                             comp.CellToColor = fieldInfo.dataType.getBackColorFunction();
                         comp.CellToText = fieldInfo.dataType.getTextConvertFunction();
+                        comp.makeHyperlinkHeader(msgIDClickHeader, 'Column information');
+                        that.panelTable.myTable.addSortOption(fieldInfo.name, SQL.TableSort([fieldInfo.id]));
                     });
 
                     //we start by defining a query that returns nothing
@@ -52,6 +66,40 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                 };
 
+                //This function is called when the user clicks on a link in a column header of the SNP query table
+                that._onClickHeader = function (scope, id) {
+                    var thecol = this.panelTable.getTable().findColumn(id);
+                    title = 'Column "{id}"'.DQXformat({ id: thecol.myName.replace('<br>', ' ') });
+                    content = '<br><b>' + thecol.customInfo.name + '</b><br><br>';
+                    if ('createCustomInfo' in thecol.customInfo)
+                        content += thecol.customInfo.createCustomInfo() + '<br><br>';
+                    var buttons = [];
+                    if (thecol.sortOption) {
+                        buttons.push(Controls.Button(null, { buttonClass: 'DQXToolButton2', content: "Sort by<br>increasing value", bitmap: DQXBMP('arrow4down.png'), width: 120, height: 50 })
+                            .setOnChanged(function () {
+                                that.panelTable.getTable().sortByColumn(id, false);
+                                if (!Popup.isPinned(popupID))
+                                    DQX.ClosePopup(popupID);
+                            }));
+                        buttons.push(Controls.Button(null, { buttonClass: 'DQXToolButton2', content: "Sort by<br>decreasing value", bitmap: DQXBMP('arrow4up.png'), width: 120, height: 50 })
+                            .setOnChanged(function () {
+                                that.panelTable.getTable().sortByColumn(id, true);
+                                if (!Popup.isPinned(popupID))
+                                    DQX.ClosePopup(popupID);
+                            }));
+                    }
+                    if (thecol.linkFunction) {
+                        buttons.push(Controls.Button(null, { buttonClass: 'DQXToolButton2', content: thecol.linkHint, width: 170, height: 50 })
+                            .setOnChanged(function () {
+                                thecol.linkFunction(id);
+                                if (!Popup.isPinned(popupID))
+                                    DQX.ClosePopup(popupID);
+                            }));
+                    }
+
+                    $.each(buttons, function (idx, bt) { content += bt.renderHtml(); });
+                    var popupID = Popup.create(title, content);
+                };
 
 
 

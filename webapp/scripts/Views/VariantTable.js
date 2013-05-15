@@ -36,6 +36,14 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     var colinfo = this.theTableFetcher.addFetchColumn('pos', 'IntDiff', "rgb(0,0,0)");
                     var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('pos', 'pos', 1));
 
+                    $.each(MetaDataDynamic.snpFieldList, function (idx, fieldInfo) {
+                        var colinfo = that.theTableFetcher.addFetchColumn(fieldInfo.id, fieldInfo.dataType.getDownloadType(), "rgb(0,0,0)");
+                        var comp = that.panelTable.myTable.addTableColumn(QueryTable.Column(fieldInfo.shortName, fieldInfo.id, 1));
+                        if (fieldInfo.dataType.getBackColorFunction())
+                            comp.CellToColor = fieldInfo.dataType.getBackColorFunction();
+                        comp.CellToText = fieldInfo.dataType.getTextConvertFunction();
+                    });
+
                     //we start by defining a query that returns nothing
                     this.theTableFetcher.setUserQuery1(SQL.WhereClause.Trivial());
                     this.panelTable.myTable.setQuery(SQL.WhereClause.Trivial());

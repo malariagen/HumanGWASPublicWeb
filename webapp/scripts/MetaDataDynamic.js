@@ -46,6 +46,8 @@
                 MetaDataDynamic.studiesMap[site.ID].sites = [site];
             }
 
+            MetaDataDynamic.createSnpFieldList();
+
 
             onCompletedHandler();
         }
@@ -120,6 +122,179 @@
                         );
             });
         }
+
+
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //A class providing information about the behaviour of data types for fields in the SNP data set
+        //The constructor takes the data type identifier as an argument
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Comverts fraction information to color encoding
+        var funcFraction2Color = function (vl) {
+            if (vl == null)
+                return "white";
+            else {
+                var vl = Math.abs(vl);
+                vl = Math.min(1, vl);
+                if (vl > 0) vl = 0.05 + vl * 0.95;
+                vl = Math.sqrt(vl);
+                /*                var g = 255 * (1 - 0.3 * vl * vl * vl * vl);
+                var r = 255 * (1 - vl * vl);
+                var b = 255 * (1 - vl);*/
+                var b = 255; //* (1 - 0.3 * vl * vl * vl * vl);
+                var g = 255 * (1 - 0.3 * vl * vl);
+                var r = 255 * (1 - 0.6 * vl);
+                return "rgb(" + parseInt(r) + "," + parseInt(g) + "," + parseInt(b) + ")";
+            }
+        };
+
+        var funcFST2Color = function (vl) {
+            if (vl == null)
+                return "white";
+            else {
+                var vl = Math.abs(vl);
+                vl = Math.min(1, vl);
+                if (vl > 0) vl = 0.05 + vl * 0.95;
+                vl = Math.sqrt(vl);
+                var b = 255 * (1 - 0.3 * vl * vl * vl * vl);
+                var g = 255 * (1 - 0.5 * vl * vl);
+                var r = 255 * (1 - vl);
+                return "rgb(" + parseInt(r) + "," + parseInt(g) + "," + parseInt(b) + ")";
+            }
+        };
+
+        //Converts fraction information to text
+        var funcFraction2Text = function (x) {
+            if ((x == null) || (x == 'None'))
+                return "-";
+            else {
+                if (x == 0) return '0';
+                var st = (parseFloat(x)).toFixed(3);
+                if (st == '0.000')
+                    st = "0.000";
+                return st;
+            }
+        };
+
+
+        var funcBase2Color = function (vl) {
+            /*            if (vl == 'A')
+            return DQX.Color(1.0, 0.95, 0.95);
+            if (vl == 'C')
+            return DQX.Color(0.85, 0.95, 0.85);
+            if (vl == 'G')
+            return DQX.Color(0.95, 0.95, 1.0);
+            if (vl == 'T')
+            return DQX.Color(0.95, 0.95, 0.8);*/
+            return "white";
+        };
+
+        var MGDataType = function (dataTypeID) {
+            var that = {};
+            that.dataTypeID = dataTypeID;
+
+            that.getMinValue = function () {
+                if (this.isFraction()) return 0;
+                DQX.reportError("Data type '{tpe}' does not have a minimum value'".DQXformat({ tpe: this.dataTypeID }));
+            }
+
+            that.getMaxValue = function () {
+                if (this.isFraction()) return 1; //!!!todo: set to 0.5 for MAF
+                DQX.reportError("Data type '{tpe}' does not have a maximum value'".DQXformat({ tpe: this.dataTypeID }));
+            }
+
+            that.isFraction = function () {
+                //if (this.dataTypeID == "FST") return true;
+                if (this.dataTypeID == "AlleleFrequency") return true;
+                return false;
+            }
+
+            that.isFloat = function () {
+                if (this.isFraction()) return true;
+                if (this.dataTypeID == "Float") return true;
+                return false;
+            }
+
+            that.isString = function () {
+                if (this.dataTypeID == "String") return true;
+                if (this.dataTypeID == "SampleSetAera") return true;
+                if (this.dataTypeID == "MutationType") return true;
+                if (this.dataTypeID == "Base") return true;
+                return false;
+            }
+
+            that.getDownloadType = function () {
+                if (this.isFloat()) return "Float3";
+                if (this.isString()) return "String";
+                DQX.reportError("Unrecognised data type '{tpe}'".DQXformat({ tpe: dataType }));
+            }
+
+            that.getQueryBuilderType = function () {
+                if (this.dataTypeID == "SampleSetAera") return "MultiChoiceInt";
+                if (this.dataTypeID == "Base") return "MultiChoiceInt";
+                if (this.dataTypeID == "MutationType") return "MultiChoiceInt";
+                if (this.isFloat()) return "Float";
+                if (this.isString()) return "String";
+                DQX.reportError("Unrecognised data type '{tpe}'".DQXformat({ tpe: dataType }));
+            }
+
+            that.getMultipeChoiceList = function () {
+                if (this.dataTypeID == "SampleSetAera") return theMetaData1.populationList;
+                if (this.dataTypeID == "Base") return theMetaData1.baseList;
+                if (this.dataTypeID == "MutationType") return [{ id: 'S', name: 'Synonymous' }, { id: 'N', name: 'Non-synonymous'}];
+                return [];
+            }
+
+            that.getBackColorFunction = function () {
+                if (this.dataTypeID == "Base") return funcBase2Color;
+                /*if (this.dataTypeID == "FST")
+                return funcFST2Color;*/
+                if (this.isFraction())
+                    return funcFraction2Color;
+                if (this.dataTypeID == "MutationType") return function (vl) { if (vl == 'N') return DQX.Color(1, 0.8, 0.6); else return "white"; };
+                return null;
+            }
+
+            that.getTextConvertFunction = function () {
+                if (this.isFraction())
+                    return funcFraction2Text;
+                if (this.dataTypeID == "MutationType") return function (vl) { if (vl == 'N') return 'Non-syn'; else return 'Syn'; };
+                return function (x) { if (x) return x.toString(); else return '-' };
+            }
+
+            return that;
+        }
+
+
+        MetaDataDynamic.createSnpFieldList = function () {
+
+            MetaDataDynamic.snpFieldList = [];
+
+            MetaDataDynamic.snpFieldList.push({ id: "snpid", shortName: "[@Snp] pos", name: '[@Snp] position', dataTypeID: "String" });
+            MetaDataDynamic.snpFieldList.push({ id: "ref", shortName: "Ref.<br>allele", name: "Reference allele", dataTypeID: "Base" });
+            MetaDataDynamic.snpFieldList.push({ id: "nonrref", shortName: "Alt.<br>allele", name: "Non-reference allele", dataTypeID: "Base" });
+
+            var frequencyTypeInfo = 'freq';
+            $.each(MetaDataDynamic._dataCountries.ID, function (idx, countryID) {
+                var countryName = MetaDataDynamic._dataCountries.Name[idx];
+                MetaDataDynamic.snpFieldList.push({
+                    id: frequencyTypeInfo + "_" + countryID,
+                    shortName: frequencyTypeInfo + "<br>" + countryID,
+                    name: frequencyTypeInfo + " " + countryName,
+                    comment: frequencyTypeInfo + " in " + countryName,
+                    dataTypeID: "AlleleFrequency"
+                });
+            });
+
+            $.each(MetaDataDynamic.snpFieldList,function(idx,field) {
+                field.dataType=MGDataType(field.dataTypeID);
+            });
+
+            var q=0;
+        }
+
 
         return MetaDataDynamic;
     });

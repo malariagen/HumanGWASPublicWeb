@@ -2,6 +2,12 @@
     function (DQX, SQL, DataFetcher, MetaData) {
         var MetaDataDynamic = {};
 
+        MetaDataDynamic.getStudyInfo = function (studyid) {
+            if (!MetaDataDynamic.studiesMap[studyid])
+                DQX.reportError('Invalid study ID '+studyid);
+            return MetaDataDynamic.studiesMap[studyid];
+        }
+
         MetaDataDynamic.tryBuildMetaDataStructures = function (onCompletedHandler) {
             //wait until all data has been fetched
             var fetchCompleted = true;
@@ -11,6 +17,14 @@
             });
             if (!fetchCompleted)
                 return;
+
+            MetaDataDynamic.studiesList = [];
+            MetaDataDynamic.studiesMap = {};
+            for (var i = 0; i < MetaDataDynamic._dataStudies.study.length; i++) {
+                var study = { ID: MetaDataDynamic._dataStudies.study[i], Title: MetaDataDynamic._dataStudies.title[i], Description: MetaDataDynamic._dataStudies.description[i] };
+                MetaDataDynamic.studiesList.push(study);
+                MetaDataDynamic.studiesMap[study.ID] = study;
+            }
 
             onCompletedHandler();
         }
@@ -41,7 +55,7 @@
 
             MetaDataDynamic.fetchedTables['_dataStudies'] = {
                 tableName: MetaData.tableStudy,
-                columns: [{ name: "study" }, { name: "title" }, { name: "description" }],
+                columns: [{ name: "study" }, { name: "title" }, { name: "description"}],
                 sortColumn: "study"
             };
 

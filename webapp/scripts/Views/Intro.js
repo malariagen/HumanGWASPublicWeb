@@ -110,6 +110,17 @@
                             }
                         },
                         {
+                            id: 'IntroStudies',
+                            name: "Studies",
+                            bitmap: '',
+                            location: buttondiv1,
+                            handler: function () {
+                                DQX.executeProcessing(function () {
+                                    that.myPage.frameStudies.makeVisible();
+                                });
+                            }
+                        },
+                        {
                             id: 'IntroTest',
                             name: "Test",
                             bitmap: '',

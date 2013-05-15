@@ -1,5 +1,5 @@
-﻿define([DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("DocEl"), DQXSC("Msg"), "Views/Intro", "Views/VariantTable", "MetaDataDynamic", "ShowSNPPopup", "ShowGenePopup"],
-    function (Framework, HistoryManager, DocEl, Msg, IntroModule, VariantTableModule, MetaDataDynamic, ShowSNPPopup, ShowGenePopup) {
+﻿define([DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("DocEl"), DQXSC("Msg"), "Views/Intro", "Views/VariantTable", "Views/Studies", "MetaDataDynamic", "ShowSNPPopup", "ShowGenePopup"],
+    function (Framework, HistoryManager, DocEl, Msg, IntroModule, VariantTableModule, StudiesModule, MetaDataDynamic, ShowSNPPopup, ShowGenePopup) {
         thePage = {
 
             createFramework: function () {
@@ -20,10 +20,14 @@
                 thePage.frameBody = thePage.frameRoot.addMemberFrame(Framework.FrameGroupStack('info', 1)).setFrameClassClient('DQXDarkFrame').setMargins(0);
 
                 thePage.frameIntro = thePage.frameBody.addMemberFrame(Framework.FrameFinal('intro', 1))
-                .setFrameClass('DQXClient').setDisplayTitle('Introduction'); ;
+                .setFrameClass('DQXClient').setDisplayTitle('Introduction');
 
                 thePage.frameVariantTable = thePage.frameBody.addMemberFrame(Framework.FrameGroupHor('varianttable', 1))
-                .setMarginsIndividual(0,6,0,0).setDisplayTitle('Variant table'); ;
+                .setMarginsIndividual(0,6,0,0).setDisplayTitle('Variant table');
+
+
+                thePage.frameStudies = thePage.frameBody.addMemberFrame(Framework.FrameGroupHor('studies', 1))
+                .setMarginsIndividual(0,6,0,0).setDisplayTitle('Studies');
 
                 //Create the views
 
@@ -32,6 +36,9 @@
 
                 thePage.VariantTableView = VariantTableModule.Instance(thePage, thePage.frameVariantTable);
                 thePage.VariantTableView.createFramework();
+
+                thePage.StudiesView = StudiesModule.Instance(thePage, thePage.frameStudies);
+                thePage.StudiesView.createFramework();
 
                 //Register some message handlers that can be used to navigate around in the app
                 Msg.listen('', { type: 'Home' }, function (context) { if (!thePage.frameIntro.isVisible()) HistoryManager.setState({ start: null }); });

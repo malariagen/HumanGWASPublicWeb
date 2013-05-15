@@ -4,7 +4,7 @@
 
         MetaDataDynamic.getStudyInfo = function (studyid) {
             if (!MetaDataDynamic.studiesMap[studyid])
-                DQX.reportError('Invalid study ID '+studyid);
+                DQX.reportError('Invalid study ID ' + studyid);
             return MetaDataDynamic.studiesMap[studyid];
         }
 
@@ -18,6 +18,7 @@
             if (!fetchCompleted)
                 return;
 
+            //Assemble studies
             MetaDataDynamic.studiesList = [];
             MetaDataDynamic.studiesMap = {};
             for (var i = 0; i < MetaDataDynamic._dataStudies.study.length; i++) {
@@ -25,6 +26,26 @@
                 MetaDataDynamic.studiesList.push(study);
                 MetaDataDynamic.studiesMap[study.ID] = study;
             }
+
+            //Assemble sites
+            //Create sites info
+            MetaDataDynamic.sites = [];
+            MetaDataDynamic.sitesMap = {};
+            for (var i = 0; i < MetaDataDynamic._dataSites.location.length; i++) {
+                var site = {
+                    ID: MetaDataDynamic._dataSites.location[i],
+                    Name: MetaDataDynamic._dataSites.name[i],
+                    Country: MetaDataDynamic._dataSites.country[i],
+                    longit: MetaDataDynamic._dataSites.longit[i],
+                    lattit: MetaDataDynamic._dataSites.lattit[i],
+                    Sample_Contexts: []
+                };
+                MetaDataDynamic.sites.push(site);
+                MetaDataDynamic.sitesMap[site.ID] = site;
+                //Attach site to study
+                MetaDataDynamic.studiesMap[site.ID].sites = [site];
+            }
+
 
             onCompletedHandler();
         }
@@ -56,7 +77,7 @@
             MetaDataDynamic.fetchedTables['_dataStudies'] = {
                 tableName: MetaData.tableStudy,
                 columns: [{ name: "study" }, { name: "title" }, { name: "description"}],
-                sortColumn: "study"
+                sortColumn: "title"
             };
 
             MetaDataDynamic.fetchedTables['_dataSampleContexts'] = {

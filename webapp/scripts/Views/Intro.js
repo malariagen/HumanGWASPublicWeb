@@ -101,7 +101,7 @@
                         {
                             id: 'IntroVariantTable',
                             name: "Variant table",
-                            bitmap: '',
+                            bitmap: 'Bitmaps/Icons/Medium/VariantCatalogue.png',
                             location: buttondiv1,
                             handler: function () {
                                 DQX.executeProcessing(function () {
@@ -112,7 +112,7 @@
                         {
                             id: 'IntroStudies',
                             name: "Studies",
-                            bitmap: '',
+                            bitmap: 'Bitmaps/Icons/Medium/PartnerStudies.png',
                             location: buttondiv1,
                             handler: function () {
                                 DQX.executeProcessing(function () {

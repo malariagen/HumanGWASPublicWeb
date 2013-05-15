@@ -16,9 +16,26 @@
                     //Panel with description of a single study
                     this.formStudyDescription = Framework.Form(this.frameStudyDescription);
                     //Map with sites for study
-                    this.panelStudyMap = Map.GMap(this.frameStudyMap, Map.Coord(0, 0), 2);
+                    this.panelStudyMap = Map.GMap(this.frameStudyMap, Map.Coord(15, 0), 3);
+
+                    this.pointsetSite_inactive = Map.PointSet('CommunitySiteMapPointsInactive', this.panelStudyMap, 0, "Bitmaps/site2.png", { showLabels: false, showMarkers: true });
+                    var pts = [];
+                    for (var i = 0; i < MetaDataDynamic.sites.length; i++)
+                        pts.push({
+                            id: MetaDataDynamic.sites[i].ID,
+                            longit: MetaDataDynamic.sites[i].longit,
+                            lattit: MetaDataDynamic.sites[i].lattit,
+                            labelName: MetaDataDynamic.sites[i].Name
+                        });
+                    this.pointsetSite_inactive.setPoints(pts);
+                    Msg.listen('', { type: 'ClickMapPoint', id: this.pointsetSite_inactive.myID }, function (scope, id) {
+                        Msg.send({ type: 'ShowStudy' }, id)
+                    });
+
+
                     this.pointsetStudy_active = Map.PointSet('StudyMapPointsActive', this.panelStudyMap, 0, "Bitmaps/circle_purple_small.png", { showLabels: true, showMarkers: true });
-                    Msg.listen('', { type: 'ClickMapPoint', id: this.pointsetStudy_active.myID }, $.proxy(this.showSiteInfoPopup, this));
+
+                    //Msg.listen('', { type: 'ClickMapPoint', id: this.pointsetStudy_active.myID }, $.proxy(this.showSiteInfoPopup, this));
 
                 };
 
@@ -95,22 +112,21 @@
 
                     this.formStudyDescription.addHtml(content);
 
-/*
                     var sites_active = [];
-                    for (var i = 0; i < study.Sample_Contexts.length; i++) {
-                        var site = study.Sample_Contexts[i].Site;
+                    for (var i = 0; i < study.sites.length; i++) {
+                        var site = study.sites[i];
                         sites_active.push({
                             id: site.ID,
                             longit: site.longit,
                             lattit: site.lattit,
-                            labelName: site.getFullName()
+                            labelName: site.Name
                         });
                     }
                     this.pointsetStudy_active.clearPoints();
                     this.pointsetStudy_active.setPoints(sites_active);
-                    //if (!this.pointsetStudy_active.isInView())
-                    this.pointsetStudy_active.zoomFit(1500);
-*/
+                    if (!this.pointsetStudy_active.isInView())
+                        this.pointsetStudy_active.zoomFit(1500);
+
                     this.formStudyDescription.render();
 
                 };

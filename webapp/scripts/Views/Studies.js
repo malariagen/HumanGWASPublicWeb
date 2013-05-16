@@ -169,9 +169,7 @@
         };
 
 
-        Msg.listen('', { type: 'ShowStudy' }, function (context, studyid) {
-            HistoryManager.setState({ study: studyid }); 
-        });
+        Msg.listen('', { type: 'ShowStudy' }, function (context, studyid) { HistoryManager.setState({ study: studyid }); });
 
 
         return StudiesModule;

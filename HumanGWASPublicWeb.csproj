@@ -176,6 +176,7 @@
     <Content Include="webapp\scripts\ShowGenePopup.js" />
     <Content Include="webapp\scripts\ShowSNPPopup.js" />
     <Content Include="webapp\scripts\Views\Intro.js" />
+    <Content Include="webapp\scripts\Views\MapSNPFrequencies.js" />
     <Content Include="webapp\scripts\Views\Studies.js" />
     <Content Include="webapp\scripts\Views\VariantTable.js" />
     <Content Include="webapp\Specifics.css" />

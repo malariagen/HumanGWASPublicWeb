@@ -62,6 +62,19 @@
                     if (isMember)
                         pop.studies.push(study);
                 });
+                //calculate geographic coordinates of population
+                pop.centerLongit = 0;
+                pop.centerLattit = 0;
+                pop.siteCount = 0;
+                $.each(pop.studies, function (idx, study) {
+                    $.each(study.sites, function (idx, site) {
+                        pop.centerLongit += site.longit;
+                        pop.centerLattit += site.lattit;
+                        pop.siteCount += 1;
+                    });
+                });
+                pop.centerLongit /= pop.siteCount;
+                pop.centerLattit /= pop.siteCount;
                 pop.getControl = function () {
                     var ctrl = Controls.LinkButton('', { smartLink: true, text: pop.Name });
                     ctrl.pop = pop;

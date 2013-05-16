@@ -22,7 +22,18 @@
                 content += '</td>';
                 content += '</tr>';
             });
-            content += '</table>';
+            content += '</table><p>';
+
+            var args = { buttonClass: 'DQXToolButton2', content: "Show frequencies on map", width: 150, height: 51 }
+            args.bitmap = "Bitmaps/{bmp}".DQXformat({ bmp: "Icons/Medium/VariantFrequency.png" });
+            var bt = Controls.Button(null, args);
+            bt.setOnChanged(function () {
+                Popup.closeIfNeeded(popupID);
+                Msg.send({ type: 'ShowAlleleFreqMap' }, snpid);
+            });
+
+            content += bt.renderHtml();
+
 
             var popupID = Popup.create("[@Snp] " + snpid, content);
         }

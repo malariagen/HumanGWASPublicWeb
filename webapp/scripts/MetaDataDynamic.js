@@ -46,6 +46,36 @@
                 MetaDataDynamic.studiesMap[site.ID].sites = [site];
             }
 
+            //Assemble information about populations
+            MetaDataDynamic.populations = [];
+            MetaDataDynamic.populationsMap = {};
+            $.each(MetaDataDynamic._dataCountries.ID, function (idx, countryID) {
+                var countryName = MetaDataDynamic._dataCountries.Name[idx];
+                var pop = {
+                    ID: countryID,
+                    Name: countryName,
+                    studies: []
+                }
+                $.each(MetaDataDynamic.studiesList, function (idx, study) {
+                    var isMember = false;
+                    $.each(study.sites, function (idx2, site) { if (site.Country == countryID) isMember = true; });
+                    if (isMember)
+                        pop.studies.push(study);
+                });
+                pop.getControl = function () {
+                    var ctrl = Controls.LinkButton('', { smartLink: true, text: pop.Name });
+                    ctrl.pop = pop;
+                    ctrl.setOnChanged(function (id, theControl) {
+                        Popup.pinUnPinnedPopups();
+                        Msg.send({ type: 'ShowPopulation' }, theControl.pop.ID);
+                    });
+                    return ctrl;
+                }
+                MetaDataDynamic.populations.push(pop);
+                MetaDataDynamic.populationsMap[pop.ID] = pop;
+            });
+
+
             MetaDataDynamic.createSnpFieldList();
 
 
@@ -131,8 +161,8 @@
         //The constructor takes the data type identifier as an argument
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Comverts fraction information to color encoding
-        var funcFraction2Color = function (vl) {
+        //Converts fraction information to color encoding
+        MetaDataDynamic.funcFraction2Color = function (vl) {
             if (vl == null)
                 return "white";
             else {
@@ -166,7 +196,7 @@
         };
 
         //Converts fraction information to text
-        var funcFraction2Text = function (x) {
+        MetaDataDynamic.funcFraction2Text = function (x) {
             if ((x == null) || (x == 'None'))
                 return "-";
             else {
@@ -252,14 +282,14 @@
                 /*if (this.dataTypeID == "FST")
                 return funcFST2Color;*/
                 if (this.isFraction())
-                    return funcFraction2Color;
+                    return MetaDataDynamic.funcFraction2Color;
                 if (this.dataTypeID == "MutationType") return function (vl) { if (vl == 'N') return DQX.Color(1, 0.8, 0.6); else return "white"; };
                 return null;
             }
 
             that.getTextConvertFunction = function () {
                 if (this.isFraction())
-                    return funcFraction2Text;
+                    return MetaDataDynamic.funcFraction2Text;
                 if (this.dataTypeID == "MutationType") return function (vl) { if (vl == 'N') return 'Non-syn'; else return 'Syn'; };
                 return function (x) { if (x) return x.toString(); else return '-' };
             }
@@ -276,33 +306,25 @@
             MetaDataDynamic.snpFieldList.push({ id: "nonrref", shortName: "Alt.<br>allele", name: "Non-reference allele", dataTypeID: "Base" });
 
             var frequencyTypeInfo = 'freq';
-            $.each(MetaDataDynamic._dataCountries.ID, function (idx, countryID) {
-                var countryName = MetaDataDynamic._dataCountries.Name[idx];
+            $.each(MetaDataDynamic.populations, function (idx, pop) {
                 var info = {
-                    id: frequencyTypeInfo + "_" + countryID,
-                    shortName: frequencyTypeInfo + "<br>" + countryID,
-                    name: 'Allele frequency' + " in " + countryName,
-                    comment: frequencyTypeInfo + " in " + countryName,
+                    id: frequencyTypeInfo + "_" + pop.ID,
+                    shortName: frequencyTypeInfo + "<br>" + pop.ID,
+                    name: 'Allele frequency' + " in " + pop.Name,
+                    comment: frequencyTypeInfo + " in " + pop.Name,
                     dataTypeID: "AlleleFrequency"
                 }
                 info.createCustomInfo = function () {
-                    var content2 = '';
-                    var studyCount = 0;
-                    $.each(MetaDataDynamic.studiesList, function (idx, study) {
-                        var isMember = false;
-                        $.each(study.sites, function (idx2, site) { if (site.Country == countryID) isMember = true; });
-                        if (isMember) {
-                            studyCount++;
-                            content2 += '<p>';
-                            var ctrl = Controls.LinkButton('', { smartLink: true, text: study.Title });
-                            ctrl.study = study;
-                            ctrl.setOnChanged(function (id, theControl) {
-                                Popup.closeUnPinnedPopups();
-                                Msg.send({ type: 'ShowStudy' }, theControl.study.ID);
-                            });
-                            content2 += ctrl.renderHtml();
-                        }
-                        content = 'Samples for this population were collected by the following [@' + DQX.pluralise('study', studyCount) + ']:' + content2;
+                    var content = 'Samples for this population were collected by the following [@' + DQX.pluralise('study', pop.studies.length) + ']:';
+                    $.each(pop.studies, function (idx, study) {
+                        content += '<p>';
+                        var ctrl = Controls.LinkButton('', { smartLink: true, text: study.Title });
+                        ctrl.study = study;
+                        ctrl.setOnChanged(function (id, theControl) {
+                            Popup.closeUnPinnedPopups();
+                            Msg.send({ type: 'ShowStudy' }, theControl.study.ID);
+                        });
+                        content += ctrl.renderHtml();
                     });
                     return content;
                 }

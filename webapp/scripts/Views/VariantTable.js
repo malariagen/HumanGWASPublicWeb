@@ -38,6 +38,9 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                     var colinfo = this.theTableFetcher.addFetchColumn('snpid', 'String', "rgb(0,0,0)");
                     var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('SNP id', 'snpid', 0));
+                    var msgID = { type: 'ClickSnpID', id: this.panelTable.myBaseID };
+                    comp.makeHyperlinkCell(msgID, DQX.interpolate("Show [@snp] info card"));
+                    Msg.listen("", msgID, $.proxy(this._onClickSnpID, this));
 
                     var colinfo = this.theTableFetcher.addFetchColumn('chrom', 'String', "rgb(0,0,0)");
                     var comp = this.panelTable.myTable.addTableColumn(QueryTable.Column('Chrom.', 'chrom', 1));
@@ -65,6 +68,12 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     this.panelTable.myTable.reLoadTable();
 
                 };
+
+                //This function is called when the user clicks on a snp id
+                that._onClickSnpID = function (scope, id) {
+                    var snpid = this.panelTable.getTable().getCellValue(id, "snpid");
+                    Msg.send({ type: 'ShowSNPPopup' }, snpid);
+                }
 
                 //This function is called when the user clicks on a link in a column header of the SNP query table
                 that._onClickHeader = function (scope, id) {

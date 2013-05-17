@@ -168,6 +168,7 @@
                                 centerLatt: pop.centerLattit,
                                 pop: pop
                             }
+                            item.radius = 50.0 * Math.pow(item.count, 0.3);
                             freqList.push(item);
                         });
                     }
@@ -179,10 +180,18 @@
                         var swapFreq = false;
                     }
 
+                    var graphics = Map.MapItemLayouter(this.myMap, 'resistinfo');
+                    for (var i = 0; i < freqList.length; i++) {
+                        var item = freqList[i];
+                        graphics.addItem(item.centerLong, item.centerLatt, item.radius);
+                    }
+                    graphics.calculatePositions();
+
+
                     for (var nr = 0; nr < freqList.length; nr++) {
                         var item = freqList[nr];
                         var chart = SVG.PieChart();
-                        var radius = 50.0 * Math.pow(item.count, 0.3);
+                        var radius = item.radius;
                         var freq = item.frac;
                         if (swapFreq) freq = 1 - freq;
                         /*                        if (this.freqTypeSelector.getValue() == 'MAF') {
@@ -190,7 +199,13 @@
                         }*/
                         chart.addPart(1 - freq, DQX.Color(0, 0, 1), "R", item.name);
                         chart.addPart(freq, DQX.Color(1, 0, 0), "NR", item.name);
-                        var pie = GMaps.Overlay.PieChart(mapObj, "GeoFreq_" + item.tpe + "_" + item.id, GMaps.Coord(item.centerLong, item.centerLatt), radius, chart);
+
+                        var pie = GMaps.Overlay.PieChart(mapObj, "MarkerFreq_" + item.ID,
+                                GMaps.Coord(graphics.items[nr].longit2, graphics.items[nr].lattit2),
+                                item.radius, chart);
+                        pie.setOrigCoord(GMaps.Coord(item.centerLong, item.centerLatt));
+
+//                        var pie = GMaps.Overlay.PieChart(mapObj, "GeoFreq_" + item.tpe + "_" + item.id, GMaps.Coord(item.centerLong, item.centerLatt), radius, chart);
                         pie.tpe = item.tpe;
                         pie.id0 = item.id0;
                         pie.id = item.id;

@@ -119,8 +119,8 @@
                                     that.myPage.frameStudies.makeVisible();
                                 });
                             }
-                        },
-                        {
+                        }
+/*                        {
                             id: 'IntroTest',
                             name: "Test",
                             bitmap: '',
@@ -128,7 +128,7 @@
                             handler: function () {
                                 PlayGround.testPopup();
                             }
-                        }
+                        }*/
                     ];
 
                     for (var i = 0; i < jumpStarts.length; i++) {

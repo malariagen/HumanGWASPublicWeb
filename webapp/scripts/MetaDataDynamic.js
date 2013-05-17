@@ -63,19 +63,20 @@
                         pop.studies.push(study);
                 });
                 //calculate geographic coordinates of population
-                pop.centerLongit = MetaDataDynamic._dataCountries.CenterLongit[idx];
-                pop.centerLattit = MetaDataDynamic._dataCountries.CenterLattit[idx];
+                pop.centerLongit = 0; //parseFloat(MetaDataDynamic._dataCountries.CenterLongit[idx]);
+                pop.centerLattit = 0;// parseFloat(MetaDataDynamic._dataCountries.CenterLattit[idx]);
                 pop.sampleCount = 0;
+                pop.siteCount = 0;
                 $.each(pop.studies, function (idx, study) {
                     pop.sampleCount += study.Count;
-/*                    $.each(study.sites, function (idx, site) {
+                    $.each(study.sites, function (idx, site) {
                         pop.centerLongit += site.longit;
                         pop.centerLattit += site.lattit;
                         pop.siteCount += 1;
-                    });*/
+                    });
                 });
-/*                pop.centerLongit /= pop.siteCount;
-                pop.centerLattit /= pop.siteCount;*/
+                pop.centerLongit /= pop.siteCount;
+                pop.centerLattit /= pop.siteCount;
                 pop.getControl = function () {
                     var ctrl = Controls.LinkButton('', { smartLink: true, text: pop.Name });
                     ctrl.pop = pop;
@@ -125,31 +126,31 @@
                 columns: [{ name: "study" }, { name: "title" }, { name: "description" }, { name: "count", encoding: "IN"}],
                 sortColumn: "title"
             };
-/*
+            /*
             MetaDataDynamic.fetchedTables['_dataSampleContexts'] = {
-                tableName: MetaData.tableSampleContextInfo,
-                columns: [{ name: "sample_context" }, { name: "title" }, { name: "description" }, { name: "study" }, { name: "location" }, { name: "samplecount", encoding: "IN"}],
-                sortColumn: "title"
+            tableName: MetaData.tableSampleContextInfo,
+            columns: [{ name: "sample_context" }, { name: "title" }, { name: "description" }, { name: "study" }, { name: "location" }, { name: "samplecount", encoding: "IN"}],
+            sortColumn: "title"
             };
 
             MetaDataDynamic.fetchedTables['_dataSampleClassifications'] = {
-                tableName: MetaData.tableSampleClassification,
-                columns: [{ name: "sample_classification" }, { name: "sample_classification_type" }, { name: "name" }, { name: "lattit", encoding: "F3" }, { name: "longit", encoding: "F3"}],
-                sortColumn: "ordr"
+            tableName: MetaData.tableSampleClassification,
+            columns: [{ name: "sample_classification" }, { name: "sample_classification_type" }, { name: "name" }, { name: "lattit", encoding: "F3" }, { name: "longit", encoding: "F3"}],
+            sortColumn: "ordr"
             };
 
             MetaDataDynamic.fetchedTables['_dataSampleClassificationTypes'] = {
-                tableName: MetaData.tableSampleClassificationType,
-                columns: [{ name: "sample_classification_type" }, { name: "name" }, { name: "name" }, { name: "description"}],
-                sortColumn: "ordr"
+            tableName: MetaData.tableSampleClassificationType,
+            columns: [{ name: "sample_classification_type" }, { name: "name" }, { name: "name" }, { name: "description"}],
+            sortColumn: "ordr"
             };
 
             MetaDataDynamic.fetchedTables['dataSampleClassificationContextCount'] = {
-                tableName: MetaData.tableSampleClassificationContextCount,
-                columns: [{ name: "sample_classification" }, { name: "sample_context" }, { name: "count", encoding: "IN"}],
-                sortColumn: "sample_classification"
+            tableName: MetaData.tableSampleClassificationContextCount,
+            columns: [{ name: "sample_classification" }, { name: "sample_context" }, { name: "count", encoding: "IN"}],
+            sortColumn: "sample_classification"
             };
-*/
+            */
             //Perform all the data fetching
             $.each(MetaDataDynamic.fetchedTables, function (ID, tableInfo) {
                 var fetcher = DataFetcher.RecordsetFetcher(serverUrl, MetaData.database, tableInfo.tableName);

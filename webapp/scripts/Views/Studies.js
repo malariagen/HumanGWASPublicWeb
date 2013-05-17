@@ -62,7 +62,7 @@
 
 
                 that.createListStudies = function () {
-                    this.listStudies = FrameList(this.frameStudiesList).setHasFilter();
+                    this.listStudies = FrameList(this.frameStudiesList);
 
                     var studieslist = MetaDataDynamic.studiesList;
                     var it = [];

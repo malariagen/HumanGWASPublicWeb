@@ -22,7 +22,7 @@
             MetaDataDynamic.studiesList = [];
             MetaDataDynamic.studiesMap = {};
             for (var i = 0; i < MetaDataDynamic._dataStudies.study.length; i++) {
-                var study = { ID: MetaDataDynamic._dataStudies.study[i], Title: MetaDataDynamic._dataStudies.title[i], Description: MetaDataDynamic._dataStudies.description[i] };
+                var study = { ID: MetaDataDynamic._dataStudies.study[i], Title: MetaDataDynamic._dataStudies.title[i], Description: MetaDataDynamic._dataStudies.description[i], Count: MetaDataDynamic._dataStudies.count[i] };
                 MetaDataDynamic.studiesList.push(study);
                 MetaDataDynamic.studiesMap[study.ID] = study;
             }
@@ -63,18 +63,19 @@
                         pop.studies.push(study);
                 });
                 //calculate geographic coordinates of population
-                pop.centerLongit = 0;
-                pop.centerLattit = 0;
-                pop.siteCount = 0;
+                pop.centerLongit = MetaDataDynamic._dataCountries.CenterLongit[idx];
+                pop.centerLattit = MetaDataDynamic._dataCountries.CenterLattit[idx];
+                pop.sampleCount = 0;
                 $.each(pop.studies, function (idx, study) {
-                    $.each(study.sites, function (idx, site) {
+                    pop.sampleCount += study.Count;
+/*                    $.each(study.sites, function (idx, site) {
                         pop.centerLongit += site.longit;
                         pop.centerLattit += site.lattit;
                         pop.siteCount += 1;
-                    });
+                    });*/
                 });
-                pop.centerLongit /= pop.siteCount;
-                pop.centerLattit /= pop.siteCount;
+/*                pop.centerLongit /= pop.siteCount;
+                pop.centerLattit /= pop.siteCount;*/
                 pop.getControl = function () {
                     var ctrl = Controls.LinkButton('', { smartLink: true, text: pop.Name });
                     ctrl.pop = pop;
@@ -109,7 +110,7 @@
 
             MetaDataDynamic.fetchedTables['_dataCountries'] = {
                 tableName: MetaData.tableCountries,
-                columns: [{ name: "ID" }, { name: "Name"}],
+                columns: [{ name: "ID" }, { name: "Name" }, { name: "CenterLongit"/*, encoding: "F3"*/ }, { name: "CenterLattit"/*, encoding: "F3"*/}],
                 sortColumn: "Name"
             };
 
@@ -121,10 +122,10 @@
 
             MetaDataDynamic.fetchedTables['_dataStudies'] = {
                 tableName: MetaData.tableStudy,
-                columns: [{ name: "study" }, { name: "title" }, { name: "description"}],
+                columns: [{ name: "study" }, { name: "title" }, { name: "description" }, { name: "count", encoding: "IN"}],
                 sortColumn: "title"
             };
-
+/*
             MetaDataDynamic.fetchedTables['_dataSampleContexts'] = {
                 tableName: MetaData.tableSampleContextInfo,
                 columns: [{ name: "sample_context" }, { name: "title" }, { name: "description" }, { name: "study" }, { name: "location" }, { name: "samplecount", encoding: "IN"}],
@@ -148,7 +149,7 @@
                 columns: [{ name: "sample_classification" }, { name: "sample_context" }, { name: "count", encoding: "IN"}],
                 sortColumn: "sample_classification"
             };
-
+*/
             //Perform all the data fetching
             $.each(MetaDataDynamic.fetchedTables, function (ID, tableInfo) {
                 var fetcher = DataFetcher.RecordsetFetcher(serverUrl, MetaData.database, tableInfo.tableName);

@@ -32,7 +32,7 @@
                 }
 
                 that.createPanels = function () {
-                    this.myMap = Map.GMap(this.frameMap, Map.Coord(0, 0), 2);
+                    this.myMap = Map.GMap(this.frameMap, Map.Coord(15, 0), 3);
                     pointset_inactive = Map.PointSet('SNPFreqSiteMapPointsInactive', this.myMap, 0, "Bitmaps/circle_blue_small.png");
                     pointset_active = Map.PointSet('SNPFreqSiteMapPointsActive', this.myMap, 0, "");
                     //Msg.listen('', { type: 'ClickMapPoint', id: pointset_inactive.myID }, that.myPage.reactSwitchToSite);
@@ -110,44 +110,42 @@
                     var aggrID = pieInfo.id0;
 
                     tokens = {};
-                    tokens[DQX.interpolate('[@Popgensampleset]')] = pieInfo.name;
-                    tokens["Number of samples<br>used for this [@snp]:"] = pieInfo.count;
-                    tokens[MetaData1.frequencyTypeMap[pieInfo.freqType].name + ':'] = pieInfo.frac.toFixed(3);
+                    tokens[DQX.interpolate('Population')] = pieInfo.name;
+                    tokens['Non-ref allele frequency'] = pieInfo.frac.toFixed(3);
                     var content = '';
                     content += DQX.CreateKeyValueTable(tokens);
 
-                    content += Controls.Button(null, { buttonClass: 'DQXToolButton2', bitmap: 'Bitmaps/Icons/Medium/SampleSet.png', width: 190, height: 51, content: "Show information<br>about this [@sampleset]" })
-                        .setOnChanged(function () {
-                            Msg.send({ type: 'ShowSampleSet' }, aggrID);
-                            Popup.closeIfNeeded(popupID);
-                        }).renderHtml();
+                    content += '<p/>';
+                    content += pieInfo.count + ' samples for this population were collected by the following [@' + DQX.pluralise('study', pieInfo.pop.studies.length) + ']:';
+                    $.each(pieInfo.pop.studies, function (idx, study) {
+                        content += '<p>';
+                        var ctrl = Controls.LinkButton('', { smartLink: true, text: study.Title });
+                        ctrl.study = study;
+                        ctrl.setOnChanged(function (id, theControl) {
+                            Popup.closeUnPinnedPopups();
+                            Msg.send({ type: 'ShowStudy' }, theControl.study.ID);
+                        });
+                        content += ctrl.renderHtml();
+                    });
+
 
                     var popupID = Popup.create("Allele frequency", content);
                 };
 
 
                 that.createLegend = function () {
-                    /*                    var groupColors = [DQX.Color(0, 0, 1), DQX.Color(1, 0, 0)];
-                    var groupNames = null;
-                    if (this.freqTypeSelector.getValue() == 'NRAF') {
+                    var groupColors = [DQX.Color(0, 0, 1), DQX.Color(1, 0, 0)];
                     groupNames = ['Reference allele', 'Non-reference allele'];
-                    }
-                    if (this.freqTypeSelector.getValue() == 'DAF') {
-                    groupNames = ['Ancestral allele', 'Derived allele'];
-                    }
-                    if (this.freqTypeSelector.getValue() == 'MAF') {
-                    groupNames = ['Majority allele', 'Minority allele'];
-                    }
                     content = '<div class="MapLegend">';
                     for (var i = 0; i < groupNames.length; i++) {
-                    content += DocEl.Span().setBackgroundColor(groupColors[i].toString()).addElem('&nbsp;&nbsp;&nbsp;&nbsp;').toString() + '&nbsp;';
-                    content += groupNames[i];
-                    content += '&nbsp;&nbsp; ';
+                        content += DocEl.Span().setBackgroundColor(groupColors[i].toString()).addElem('&nbsp;&nbsp;&nbsp;&nbsp;').toString() + '&nbsp;';
+                        content += groupNames[i];
+                        content += '&nbsp;&nbsp; ';
                     }
                     content += '</div>';
 
                     this.legendContent.modifyValue(content);
-                    this.panelLegend.render();*/
+                    this.panelLegend.render();
                 }
 
                 that.showInfo = function () {
@@ -163,11 +161,12 @@
                                 tpe: -1,
                                 id0: pop.ID,
                                 id: pop.ID,
-                                frac: parseFloat(that.dataSnpInfo["freq"+'_' + pop.ID]),
-                                count: 100,
+                                frac: parseFloat(that.dataSnpInfo["freq" + '_' + pop.ID]),
+                                count: pop.sampleCount,
                                 name: pop.Name,
                                 centerLong: pop.centerLongit,
-                                centerLatt: pop.centerLattit
+                                centerLatt: pop.centerLattit,
+                                pop: pop
                             }
                             freqList.push(item);
                         });
@@ -183,11 +182,11 @@
                     for (var nr = 0; nr < freqList.length; nr++) {
                         var item = freqList[nr];
                         var chart = SVG.PieChart();
-                        var radius = 80.0 * Math.pow(item.count, 0.3);
+                        var radius = 50.0 * Math.pow(item.count, 0.3);
                         var freq = item.frac;
                         if (swapFreq) freq = 1 - freq;
-/*                        if (this.freqTypeSelector.getValue() == 'MAF') {
-                            if (freq > 0.5) freq = 1.0 - freq;
+                        /*                        if (this.freqTypeSelector.getValue() == 'MAF') {
+                        if (freq > 0.5) freq = 1.0 - freq;
                         }*/
                         chart.addPart(1 - freq, DQX.Color(0, 0, 1), "R", item.name);
                         chart.addPart(freq, DQX.Color(1, 0, 0), "NR", item.name);
@@ -198,6 +197,7 @@
                         pie.name = item.name;
                         pie.frac = freq;
                         pie.count = item.count;
+                        pie.pop = item.pop;
                         //pie.freqType = this.freqTypeSelector.getValue();
                         pie.onClick = $.proxy(that._createAreaPopup, that);
                     }

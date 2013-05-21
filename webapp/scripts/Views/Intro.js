@@ -110,6 +110,17 @@
                             }
                         },
                         {
+                            id: 'IntroGenomeBrowser',
+                            name: "Genome Browser",
+                            bitmap: 'Bitmaps/Icons/Medium/GenomeAccessibility.png',
+                            location: buttondiv1,
+                            handler: function () {
+                                DQX.executeProcessing(function () {
+                                    that.myPage.frameGenomeBrowser.makeVisible();
+                                });
+                            }
+                        },
+                        {
                             id: 'IntroStudies',
                             name: "Studies",
                             bitmap: 'Bitmaps/Icons/Medium/PartnerStudies.png',

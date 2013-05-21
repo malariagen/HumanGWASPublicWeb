@@ -2,6 +2,8 @@
     function (DQX, SQL, DataFetcher, Controls, Popup, Msg, MetaData) {
         var MetaDataDynamic = {};
 
+        MetaDataDynamic.genomePlotValues = [];//not defined;
+
         MetaDataDynamic.getStudyInfo = function (studyid) {
             if (!MetaDataDynamic.studiesMap[studyid])
                 DQX.reportError('Invalid study ID ' + studyid);
@@ -64,7 +66,7 @@
                 });
                 //calculate geographic coordinates of population
                 pop.centerLongit = 0; //parseFloat(MetaDataDynamic._dataCountries.CenterLongit[idx]);
-                pop.centerLattit = 0;// parseFloat(MetaDataDynamic._dataCountries.CenterLattit[idx]);
+                pop.centerLattit = 0; // parseFloat(MetaDataDynamic._dataCountries.CenterLattit[idx]);
                 pop.sampleCount = 0;
                 pop.siteCount = 0;
                 $.each(pop.studies, function (idx, study) {

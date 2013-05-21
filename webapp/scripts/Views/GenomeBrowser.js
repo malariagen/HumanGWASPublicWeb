@@ -293,6 +293,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                 //Call this function to jump to & highlight a specific region on the genome
                 that.onJumpGenomeRegion = function (context, args) {
+                    this.activateState();
                     if ('chromoID' in args)
                         var chromoID = args.chromoID;
                     else {

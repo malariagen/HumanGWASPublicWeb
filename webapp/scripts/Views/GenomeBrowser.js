@@ -67,6 +67,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     this.panelBrowser.getNavigator().setMinScrollSize(0.0001);
                     this.panelBrowser.getNavigator().setUnits('Mb');
                     this.panelBrowser.getNavigator().zoomareafraction = 0.2;
+                    this.panelBrowser.minZoomWindowSize = 20000;
 
                     this.panelBrowser.annotationChannel.handleFeatureClicked = function (geneID) {
                         Msg.send({ type: 'ShowGenePopup' }, geneID);

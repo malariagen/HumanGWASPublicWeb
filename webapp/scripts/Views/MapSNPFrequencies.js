@@ -1,5 +1,5 @@
-﻿define([DQXSCRQ(), DQXSC("SVG"), DQXSC("Framework"), DQXSC("Popup"), DQXSC("DocEl"), DQXSC("SQL"), DQXSC("Msg"), DQXSC("Controls"), DQXSC("Map"), DQXSC("DataFetcher/DataFetchers"), "MetaData", "MetaDataDynamic", "Common"],
-    function (require, SVG, Framework, Popup, DocEl, SQL, Msg, Controls, Map, DataFetcher, MetaData, MetaDataDynamic, Common) {
+﻿define([DQXSCRQ(), DQXSC("SVG"), DQXSC("Framework"), DQXSC("Popup"), DQXSC("DocEl"), DQXSC("SQL"), DQXSC("Msg"), DQXSC("Controls"), DQXSC("Map"), DQXSC("DataFetcher/DataFetchers"), "MetaData", "MetaDataDynamic"],
+    function (require, SVG, Framework, Popup, DocEl, SQL, Msg, Controls, Map, DataFetcher, MetaData, MetaDataDynamic) {
 
         var MapSNPFrequencies = {
 

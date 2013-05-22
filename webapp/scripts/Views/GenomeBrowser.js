@@ -84,7 +84,16 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         that.panelBrowser.addChromosome(chromo.id, chromo.id, chromo.len);
                     });
 
+                    //Create data fetcher that will fetch the filterbanked data
+                    this.dataFetcherProfiles = new DataFetcherSummary.Fetcher(serverUrl, 1000, 1200);
+                    this.dataFetcherProfiles.translateChromoId = function (inp) { return 'chr' + parseInt(inp, 10); }
+                    this.panelBrowser.addDataFetcher(this.dataFetcherProfiles);
+                    this.summaryFolder = 'FilterBank';
+
+
                     //this.createSNPChannels();
+
+                    this.createProfileChannels();
 
                     //Causes the browser to start with a sensible start region
                     var firstChromosome = MetaData.chromosomes[0].id;
@@ -133,11 +142,6 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                     require("Page").dataFetcherSNPs = this.dataFetcherSNPs; //Store this fetcher in a location accessible for everybody
 
-                    //Create data fetcher that will fetch the filterbanked data
-                    this.dataFetcherProfiles = new DataFetcherSummary.Fetcher(serverUrl, 1000, 1200);
-                    this.dataFetcherProfiles.translateChromoId = function (inp) { return 'chr' + parseInt(inp, 10); }
-                    this.panelBrowser.addDataFetcher(this.dataFetcherProfiles);
-                    var summaryFolder = 'FilterBank';
 
 
                     //Make sure we fetch the SNP id from the table
@@ -190,7 +194,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                             //Filterbank summaries
                             $.each(summaryComps, function (idx, summaryComp) {
                                 var summCompID = 'value_' + summaryComp.id;
-                                var colinfo = that.dataFetcherProfiles.addFetchColumn(summaryFolder + '/' + plotValue.id, 'Summ01', summCompID);
+                                var colinfo = that.dataFetcherProfiles.addFetchColumn(this.summaryFolder + '/' + plotValue.id, 'Summ01', summCompID);
                                 var summComp = theChannel.addComponent(ChannelYVals.CompFilled(summCompID, that.dataFetcherProfiles, colinfo.myID));
                                 summComp.setColor(summaryComp.color, summaryComp.opacity);
                                 summComp.myPlotHints.makeDrawLines(3000000.0); //This causes the points to be connected with lines
@@ -228,6 +232,45 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     });
 
 
+                    //Add the checkboxes that control the visibility of the components
+                    var propertyClassesMap = {}
+                    $.each(controlsList, function (idx, control) {
+                        if (!(control.propertyClass in propertyClassesMap)) {
+                            propertyClassesMap[control.propertyClass] = that.panelControls.root.addItem(FrameTree.Branch('' + idx, DocEl.StyledText(control.propertyClass, 'DQXLarge'))).setCanSelect(false);
+                        }
+                        propertyClassesMap[control.propertyClass].addItem(FrameTree.Control(control));
+                    });
+
+                    //that.panelControls.addControl(Controls.CompoundVert(controlsList));
+                    this.panelControls.render();
+
+                }
+
+
+                that.createProfileChannels = function () {
+
+                    if (true) {//Overall fixed effects channel
+                        var channelID = 'variable2';
+                        var label = 'Overall fixed effects';
+                        var defaultVisible = true;
+                        var theChannel = ChannelYVals.Channel(channelID, { minVal: 0, maxVal: 6 });
+                        theChannel.setTitle(label);
+                        theChannel.setHeight(200, true);
+                        that.panelBrowser.addChannel(theChannel, false);
+                        theChannel.setChangeYScale(false, true);
+                        var summCompList = [];
+
+                        var summCompID = 'value_' + 'Max';
+                        var colinfo = that.dataFetcherProfiles.addFetchColumn(this.summaryFolder + '/' + channelID, 'Summ01', summCompID);
+                        var summComp = theChannel.addComponent(ChannelYVals.CompFilled(summCompID, that.dataFetcherProfiles, colinfo.myID));
+                        summCompList.push(summComp);
+                        summComp.setColor(DQX.Color(0, 0, 1), 0.8);
+                        summComp.myPlotHints.makeDrawLines(3000000.0); //This causes the points to be connected with lines
+                        summComp.myPlotHints.interruptLineAtAbsent = true;
+                        summComp.myPlotHints.drawPoints = false;
+                        theChannel.modifyComponentActiveStatus(summCompID, defaultVisible, false);
+
+                    }
 
 
                     if (true) {//Create recombination rate channel
@@ -242,7 +285,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         var summCompList = [];
 
                         var summCompID = 'value_' + 'Max';
-                        var colinfo = that.dataFetcherProfiles.addFetchColumn(summaryFolder + '/' + channelID, 'Summ01', summCompID);
+                        var colinfo = that.dataFetcherProfiles.addFetchColumn(this.summaryFolder + '/' + channelID, 'Summ01', summCompID);
                         var summComp = theChannel.addComponent(ChannelYVals.CompFilled(summCompID, that.dataFetcherProfiles, colinfo.myID));
                         summCompList.push(summComp);
                         summComp.setColor(DQX.Color(0, 0, 0), 0.35);
@@ -252,7 +295,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         theChannel.modifyComponentActiveStatus(summCompID, defaultVisible, false);
 
                         var summCompID = 'value_' + 'Q50';
-                        var colinfo = that.dataFetcherProfiles.addFetchColumn(summaryFolder + '/' + channelID, 'Summ01', summCompID);
+                        var colinfo = that.dataFetcherProfiles.addFetchColumn(this.summaryFolder + '/' + channelID, 'Summ01', summCompID);
                         var summComp = theChannel.addComponent(ChannelYVals.CompFilled(summCompID, that.dataFetcherProfiles, colinfo.myID));
                         summCompList.push(summComp);
                         summComp.setColor(DQX.Color(0.0, 0, 0), 0.75);
@@ -261,7 +304,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         summComp.myPlotHints.drawPoints = false;
                         theChannel.modifyComponentActiveStatus(summCompID, defaultVisible, false);
 
-                        var chk = Controls.Check('', { label: label, value: defaultVisible });
+/*                        var chk = Controls.Check('', { label: label, value: defaultVisible });
                         chk.setOnChanged(function () {
                             that.panelBrowser.channelModifyVisibility(theChannel.getID(), chk.getValue());
                             $.each(summCompList, function (idx, summComp) {
@@ -270,22 +313,10 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                             that.panelBrowser.render();
                         });
                         chk.propertyClass = 'Misc';
-                        controlsList.push(chk);
+                        controlsList.push(chk);*/
                     }
 
 
-
-                    //Add the checkboxes that control the visibility of the components
-                    var propertyClassesMap = {}
-                    $.each(controlsList, function (idx, control) {
-                        if (!(control.propertyClass in propertyClassesMap)) {
-                            propertyClassesMap[control.propertyClass] = that.panelControls.root.addItem(FrameTree.Branch('' + idx, DocEl.StyledText(control.propertyClass, 'DQXLarge'))).setCanSelect(false);
-                        }
-                        propertyClassesMap[control.propertyClass].addItem(FrameTree.Control(control));
-                    });
-
-                    //that.panelControls.addControl(Controls.CompoundVert(controlsList));
-                    this.panelControls.render();
 
                 }
 

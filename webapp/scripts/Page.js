@@ -56,6 +56,7 @@
 
                 //Register some message handlers that can be used to navigate around in the app
                 Msg.listen('', { type: 'Home' }, function (context) { if (!thePage.frameIntro.isVisible()) HistoryManager.setState({ start: null }); });
+                Msg.listen('', { type: 'Back' }, function (context) { HistoryManager.back(); });
                 //Msg.listen('', { type: 'ShowBrowser' }, function (context, studyid) { thePage.frameBrowser.makeVisible(); });
 
             },

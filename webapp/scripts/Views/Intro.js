@@ -35,15 +35,10 @@
                     });
                 };
 
-                that.createNavigationButton = function (id, parentDiv, bitmap, content, styleClass, width) {
-                    var button = DocEl.Div({ id: id, parent: parentDiv });
-                    button.setCssClass(styleClass);
-                    button.addStyle('display', 'inline-block');
-                    button.setHeightPx(30);
-                    button.setWidthPx(width);
-                    if (bitmap)
-                        button.addElem('<IMG style="float:left;margin-right:5px;" SRC="{bmp}" border=0  ALT=""></IMG>'.DQXformat({ bmp: bitmap }));
-                    button.addElem(content);
+                that.createNavigationButton = function (id, parentDiv, bitmap, content, styleClass, width, handlerFunction) {
+                    var bt = Controls.Button(id, { bitmap: bitmap, content: content, buttonClass: styleClass, width: width, height: 30 });
+                    bt.setOnChanged(handlerFunction);
+                    parentDiv.addElem(bt.renderHtml());
                 };
 
 
@@ -52,7 +47,10 @@
                     navSectionDiv.addStyle("position", "absolute");
                     navSectionDiv.addStyle("right", "0px");
                     navSectionDiv.addStyle("top", "0px");
-                    this.createNavigationButton("HeaderHome", navSectionDiv, 'Bitmaps/home.png', "Go to<br>Intro page", "DQXToolButton2", 110);
+                    this.createNavigationButton("HeaderPrevious", navSectionDiv, 'Bitmaps/Icons/Small/Back.png', DQX.Text("NavButtonPrevious"), "DQXToolButton3", 100, function () { Msg.send({ type: 'Back' }) });
+                    this.createNavigationButton("HeaderHome", navSectionDiv, 'Bitmaps/Icons/Small/Home.png', DQX.Text("NavButtonIntro"), "DQXToolButton3", 100, function () { Msg.send({ type: 'Home' }) });
+                    this.createNavigationButton("HeaderFindSNP", navSectionDiv, 'Bitmaps/Icons/Small/MagGlassV.png'/*DQXBMP('magnif2.png')*/, DQX.Text("NavButtonFindSNP"), "DQXToolButton1", 100, function () { Msg.send({ type: 'WizardFindSNP' }); });
+                    this.createNavigationButton("HeaderFindGene", navSectionDiv, 'Bitmaps/Icons/Small/MagGlassG.png'/*DQXBMP('magnif2.png')*/, DQX.Text("NavButtonFindGene"), "DQXToolButton1", 100, function () { Msg.send({ type: 'WizardFindGene' }); });
                     $('#' + this.myHeaderFrame.getClientDivID()).append(navSectionDiv.toString());
                     $('#HeaderHome').mousedown(function () { Msg.send({ type: 'Home' }) });
 
@@ -60,10 +58,10 @@
                 };
 
                 disableHomeButton = function () {
-                    $('#HeaderHome').css('opacity', 0.3);
+                    //$('#HeaderHome').css('opacity', 0.3);
                 }
                 enableHomeButton = function () {
-                    $('#HeaderHome').css('opacity', 1.0);
+                    //$('#HeaderHome').css('opacity', 1.0);
                 }
 
 

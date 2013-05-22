@@ -14,23 +14,23 @@
             content += "<table>";
                 content += "<tr>";
                 content += "<td><b>Gene</b></td>";
-                content += '<td style="padding-left:5px;max-width:300px;word-wrap:break-word;">' + data[MetaData.databases.Annotation.tables.Annotation.nameColumn] + "</td>";
+                content += '<td style="padding-left:5px;max-width:300px;word-wrap:break-word;">' + data['fname'] + "</td>";
                 content += "</tr>";
                 content += "<tr>";
                 content += "<td><b>Chromosome</b></td>";
-                content += '<td style="padding-left:5px;max-width:300px;word-wrap:break-word;">' + data[MetaData.databases.Annotation.tables.Annotation.chromosomeColumn] + "</td>";
+                content += '<td style="padding-left:5px;max-width:300px;word-wrap:break-word;">' + data['chromid'] + "</td>";
                 content += "</tr>";
                 content += "<tr>";
                 content += "<td><b>Start&nbsp;position</b></td>";
-                content += '<td style="padding-left:5px;max-width:300px;word-wrap:break-word;">' + data[MetaData.databases.Annotation.tables.Annotation.startPositionColumn] + "</td>";
+                content += '<td style="padding-left:5px;max-width:300px;word-wrap:break-word;">' + data['fstart'] + "</td>";
                 content += "</tr>";
                 content += "<tr>";
                 content += "<td><b>End&nbsp;position</b></td>";
-                content += '<td style="padding-left:5px;max-width:300px;word-wrap:break-word;">' + data[MetaData.databases.Annotation.tables.Annotation.stopPositionColumn] + "</td>";
+                content += '<td style="padding-left:5px;max-width:300px;word-wrap:break-word;">' + data['fstop'] + "</td>";
                 content += "</tr>";
             content += "</table>"
             
-            var geneName = data[MetaData.databases.Annotation.tables.Annotation.nameColumn];
+            var geneName = data['fname'];
 
             
             
@@ -75,7 +75,7 @@
             content += verticalButtonsList.renderHtml();
             
 
-            var popupID = Popup.create("Gene " + data[MetaData.databases.Annotation.tables.Annotation.nameColumn], content);
+            var popupID = Popup.create("Gene " + data['fname'], content);
 
         }
 
@@ -83,9 +83,9 @@
         ShowGenePopup.handlePopup = function (geneid) {
             var myurl = DQX.Url(serverUrl);
             myurl.addUrlQueryItem("datatype", 'recordinfo');
-            myurl.addUrlQueryItem("qry", SQL.WhereClause.encode(SQL.WhereClause.CompareFixed(MetaData.databases.Annotation.tables.Annotation.idColumn, '=', geneid)));
-            myurl.addUrlQueryItem("database", MetaData.databases.Annotation.url);
-            myurl.addUrlQueryItem("tbname", MetaData.databases.Annotation.tables.Annotation.tableName );
+            myurl.addUrlQueryItem("qry", SQL.WhereClause.encode(SQL.WhereClause.CompareFixed(/*MetaData.databases.Annotation.tables.Annotation.idColumn*/'fid', '=', geneid)));
+            myurl.addUrlQueryItem("database", MetaData.database);
+            myurl.addUrlQueryItem("tbname", MetaData.tableAnnotation);
             $.ajax({
                 url: myurl.toString(),
                 success: function (resp) {

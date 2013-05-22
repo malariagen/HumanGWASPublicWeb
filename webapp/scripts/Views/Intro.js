@@ -22,6 +22,8 @@
                     $('#' + this.myFrame.getClientDivID()).append('<div style="clear:both"><br></div>');
                     this.createWizardButtons();
 
+                    DQX.ExecPostCreateHtml();
+
                 };
 
                 that.createFramework = function () {
@@ -50,10 +52,10 @@
                     navSectionDiv.addStyle("position", "absolute");
                     navSectionDiv.addStyle("right", "0px");
                     navSectionDiv.addStyle("top", "0px");
-                    this.createNavigationButton("HeaderHome", navSectionDiv, 'Bitmaps/home.png', "Go to<br>Intro page", "DQXToolButton2",110);
+                    this.createNavigationButton("HeaderHome", navSectionDiv, 'Bitmaps/home.png', "Go to<br>Intro page", "DQXToolButton2", 110);
                     $('#' + this.myHeaderFrame.getClientDivID()).append(navSectionDiv.toString());
                     $('#HeaderHome').mousedown(function () { Msg.send({ type: 'Home' }) });
-                   
+
                     disableHomeButton();
                 };
 
@@ -65,8 +67,11 @@
                 }
 
 
-                that.createButton = function (id, parentDiv, bitmap, content, style) {
-                    var button = DocEl.Div({ id: id, parent: parentDiv });
+                that.createButton = function (id, parentDiv, bitmap, content, style, handlerFunction) {
+                    var bt = Controls.Button(id, { bitmap: bitmap, content: content, buttonClass: style, width: 190, height: 51 });
+                    bt.setOnChanged(handlerFunction);
+                    parentDiv.addElem(bt.renderHtml());
+                    /*                    var button = DocEl.Div({ id: id, parent: parentDiv });
                     button.setWidthPx(200);
                     button.addStyle('margin', '10px');
                     button.setWidthPx(200);
@@ -74,16 +79,18 @@
                     button.setCssClass(style);
                     button.addStyle('float', 'left');
                     if (bitmap)
-                        button.addElem('<IMG style="float:left;margin-right:8px;margin-top:3px" SRC="{bmp}" border=0  ALT=""></IMG>'.DQXformat({ bmp: bitmap }));
-                    button.addElem(content);
+                    button.addElem('<IMG style="float:left;margin-right:8px;margin-top:3px" SRC="{bmp}" border=0  ALT=""></IMG>'.DQXformat({ bmp: bitmap }));
+                    button.addElem(content);*/
                 };
 
                 that.createWizardButtons = function () {
                     var buttondiv = DocEl.Div();
                     buttondiv.addStyle('clear', 'both');
-                  
+                    this.createButton("IntroFindSNP", buttondiv, 'Bitmaps/Icons/Medium/MagGlassV.png', DQX.Text("StartButtonFindSNP"), "DQXToolButton1", function () { Msg.send({ type: 'WizardFindSNP' }); });
+                    this.createButton("IntroFindGene", buttondiv, 'Bitmaps/Icons/Medium/MagGlassG.png', DQX.Text("StartButtonFindGene"), "DQXToolButton1", function () { Msg.send({ type: 'WizardFindGene' }); });
+
                     $('#' + this.myFrame.getClientDivID()).append('<p/>' + buttondiv.toString());
-                  
+
                 };
 
                 that.createJumpStartButtons = function () {
@@ -131,27 +138,23 @@
                                 });
                             }
                         }
-/*                        {
-                            id: 'IntroTest',
-                            name: "Test",
-                            bitmap: '',
-                            location: buttondiv1,
-                            handler: function () {
-                                PlayGround.testPopup();
-                            }
-                        }*/
+                    /*                        {
+                    id: 'IntroTest',
+                    name: "Test",
+                    bitmap: '',
+                    location: buttondiv1,
+                    handler: function () {
+                    PlayGround.testPopup();
+                    }
+                    }*/
                     ];
 
                     for (var i = 0; i < jumpStarts.length; i++) {
                         var jumpStart = jumpStarts[i];
-                        this.createButton(jumpStart.id, jumpStart.location, jumpStart.bitmap, jumpStart.name, "DQXToolButton3");
+                        this.createButton(jumpStart.id, jumpStart.location, jumpStart.bitmap, jumpStart.name, "DQXToolButton3", jumpStart.handler);
                     }
                     $('#' + this.myFrame.getClientDivID()).append(buttondiv1.toString());
                     $('#' + this.myFrame.getClientDivID()).append(buttondiv2.toString());
-                    for (var i = 0; i < jumpStarts.length; i++) {
-                        var jumpStart = jumpStarts[i];
-                        $('#' + jumpStart.id).mousedown(jumpStart.handler);
-                    }
                 };
 
                 that.activateState = function () {

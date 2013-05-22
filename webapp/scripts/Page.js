@@ -1,9 +1,11 @@
-﻿define([DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("DocEl"), DQXSC("Msg"), "Views/Intro", "Views/VariantTable", "Views/Studies", "Views/MapSNPFrequencies", "Views/GenomeBrowser", "MetaDataDynamic", "ShowSNPPopup", "ShowGenePopup"],
-    function (Framework, HistoryManager, DocEl, Msg, IntroModule, VariantTableModule, StudiesModule, MapSNPFrequenciesModule, GenomeBrowserModule, MetaDataDynamic, ShowSNPPopup, ShowGenePopup) {
+﻿define([DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("DocEl"), DQXSC("Msg"), "Views/Intro", "Views/VariantTable", "Views/Studies", "Views/MapSNPFrequencies", "Views/GenomeBrowser", "Wizards/WizardFindGene", "Wizards/WizardFindSNP", "MetaDataDynamic", "ShowSNPPopup", "ShowGenePopup"],
+    function (Framework, HistoryManager, DocEl, Msg, IntroModule, VariantTableModule, StudiesModule, MapSNPFrequenciesModule, GenomeBrowserModule, WizardFindGene, WizardFindSNP, MetaDataDynamic, ShowSNPPopup, ShowGenePopup) {
         thePage = {
 
             createFramework: function () {
 
+                WizardFindGene.init();
+                WizardFindSNP.init();
                 ShowSNPPopup.init();
                 ShowGenePopup.init();
 
@@ -60,7 +62,7 @@
 
             fetchRequiredInfo: function (onCompletedHandler) {
                 thePage.metaDataDynamic = MetaDataDynamic.fetch(onCompletedHandler);
-            },
+            }
 
         };
 

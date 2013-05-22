@@ -323,10 +323,17 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     var tabswitched = that.myPage.frameVariantTable.makeVisible();
                 };
 
+
+                Msg.listen('', { type: 'ShowVariantTableGene' }, function (context, geneid) {
+                    that.activateGene(geneid);
+                });
+
                 return that;
             }
 
         };
+
+
 
         return VariantTableModule;
     });

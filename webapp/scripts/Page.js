@@ -25,17 +25,17 @@
                 .setFrameClass('DQXClient').setDisplayTitle('Introduction');
 
                 thePage.frameVariantTable = thePage.frameBody.addMemberFrame(Framework.FrameGroupHor('varianttable', 1))
-                .setMarginsIndividual(0,6,0,0).setDisplayTitle('Variant table');
+                .setMarginsIndividual(0,0,0,0).setDisplayTitle('Variant table');
 
 
                 thePage.frameStudies = thePage.frameBody.addMemberFrame(Framework.FrameGroupHor('studies', 1))
-                .setMarginsIndividual(0,6,0,0).setDisplayTitle('Studies');
+                .setMarginsIndividual(0,0,0,0).setDisplayTitle('Studies');
 
                 thePage.frameMapSNPFrequencies = thePage.frameBody.addMemberFrame(Framework.FrameGeneric('freqmap', 1))
-                .setMarginsIndividual(0,6,0,0).setDisplayTitle('Mapped allele frequencies');
+                .setMarginsIndividual(0,0,0,0).setDisplayTitle('Mapped allele frequencies');
 
                 thePage.frameGenomeBrowser = thePage.frameBody.addMemberFrame(Framework.FrameGroupHor('genomebrowser', 1))
-                .setMarginsIndividual(0,6,0,0).setDisplayTitle('Genome browser'); ;
+                .setMarginsIndividual(0,0,0,0).setDisplayTitle('Genome browser'); ;
 
                 //Create the views
 

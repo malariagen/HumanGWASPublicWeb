@@ -1,6 +1,6 @@
 ﻿
-define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Utils"), DQXSC("FrameList"), DQXSC("FrameTree"), DQXSC("ChannelPlot/GenomePlotter"), DQXSC("ChannelPlot/ChannelSequence"), DQXSC("ChannelPlot/ChannelSnps"), DQXSC("ChannelPlot/ChannelYVals"), DQXSC("DataFetcher/DataFetcherFile"), DQXSC("DataFetcher/DataFetchers"), DQXSC("DataFetcher/DataFetcherSummary"), "MetaData", "MetaDataDynamic"],
-    function (require, Framework, Controls, Msg, SQL, DocEl, DQX, FrameList, FrameTree, GenomePlotter, ChannelSequence, ChannelSnps, ChannelYVals, DataFetcherFile, DataFetchers, DataFetcherSummary, MetaData, MetaDataDynamic) {
+define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Utils"), DQXSC("FrameList"), DQXSC("FrameTree"), DQXSC("ChannelPlot/GenomePlotter"), DQXSC("ChannelPlot/ChannelSequence"), DQXSC("ChannelPlot/ChannelSnps"), DQXSC("ChannelPlot/ChannelYVals"), DQXSC("DataFetcher/DataFetcherFile"), DQXSC("DataFetcher/DataFetchers"), DQXSC("DataFetcher/DataFetcherSummary"), "MetaData", "MetaDataDynamic", "GenomeBrowserSNPChannel"],
+    function (require, Framework, Controls, Msg, SQL, DocEl, DQX, FrameList, FrameTree, GenomePlotter, ChannelSequence, ChannelSnps, ChannelYVals, DataFetcherFile, DataFetchers, DataFetcherSummary, MetaData, MetaDataDynamic, GenomeBrowserSNPChannel) {
 
         var GenomeBrowserModule = {
 
@@ -91,7 +91,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     this.summaryFolder = 'FilterBank';
 
 
-                    //this.createSNPChannels();
+                    this.createSNPChannels();
 
                     this.createProfileChannels();
 
@@ -133,20 +133,24 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     //Create data fetcher that will fetch the SNP data
                     this.dataFetcherSNPs = new DataFetchers.Curve(
                         serverUrl,
-                        MetaData.databases.Analysis.url,
-                        MetaData.databases.Analysis.tables.SNPInfo.tableName,
-                        MetaData.databases.Analysis.tables.SNPInfo.positionColumn
+                        MetaData.database,
+                        MetaData.tableSnpData,
+                        'pos'
                     );
                     this.dataFetcherSNPs.rangeExtension = 0.5; //fetch smaller range extension for speed reasons
                     this.panelBrowser.addDataFetcher(this.dataFetcherSNPs);
 
-                    require("Page").dataFetcherSNPs = this.dataFetcherSNPs; //Store this fetcher in a location accessible for everybody
+                    //                    require("Page").dataFetcherSNPs = this.dataFetcherSNPs; //Store this fetcher in a location accessible for everybody
 
+                    this.channelSNPs = GenomeBrowserSNPChannel.SNPChannel(this.dataFetcherSNPs);
+                    this.panelBrowser.addChannel(this.channelSNPs, false);
 
 
                     //Make sure we fetch the SNP id from the table
-                    this.dataFetcherSNPs.addFetchColumn(MetaData.databases.Analysis.tables.SNPInfo.snpIdColumn, "String");
-                    this.dataFetcherSNPs.activateFetchColumn(MetaData.databases.Analysis.tables.SNPInfo.snpIdColumn);
+                    this.dataFetcherSNPs.addFetchColumn('snpid', "String");
+                    this.dataFetcherSNPs.activateFetchColumn('snpid');
+
+                    return;
 
 
 
@@ -304,13 +308,13 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         summComp.myPlotHints.drawPoints = false;
                         theChannel.modifyComponentActiveStatus(summCompID, defaultVisible, false);
 
-/*                        var chk = Controls.Check('', { label: label, value: defaultVisible });
+                        /*                        var chk = Controls.Check('', { label: label, value: defaultVisible });
                         chk.setOnChanged(function () {
-                            that.panelBrowser.channelModifyVisibility(theChannel.getID(), chk.getValue());
-                            $.each(summCompList, function (idx, summComp) {
-                                summComp.modifyComponentActiveStatus(chk.getValue());
-                            });
-                            that.panelBrowser.render();
+                        that.panelBrowser.channelModifyVisibility(theChannel.getID(), chk.getValue());
+                        $.each(summCompList, function (idx, summComp) {
+                        summComp.modifyComponentActiveStatus(chk.getValue());
+                        });
+                        that.panelBrowser.render();
                         });
                         chk.propertyClass = 'Misc';
                         controlsList.push(chk);*/

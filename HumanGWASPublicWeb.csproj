@@ -163,6 +163,7 @@
     <Content Include="webapp\scripts\DQX\SVG.js" />
     <Content Include="webapp\scripts\DQX\Utils.js" />
     <Content Include="webapp\scripts\DQX\Wizard.js" />
+    <Content Include="webapp\scripts\GenomeBrowserSNPChannel.js" />
     <Content Include="webapp\scripts\Local.example\_SetAnalyticsId.js" />
     <Content Include="webapp\scripts\Local.example\_SetServerUrl.js" />
     <Content Include="webapp\scripts\Local\_SetAnalyticsId.js" />

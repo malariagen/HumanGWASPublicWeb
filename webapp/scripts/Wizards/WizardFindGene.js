@@ -140,7 +140,7 @@
 
         //Sets a message on the find in region page
         WizardFindGene.setSearchResultMessage_Region = function (msg) {
-            WizardFindGene.resultList_Region.getJQElement('').html('<i> ' + msg + '</i>');
+            WizardFindGene.resultList_Region.getJQElement('').html(DQX.interpolate('<i> ' + msg + '</i>'));
         }
 
         //Internal: Callback that is executed when the search in region option returns data from the server
@@ -154,7 +154,7 @@
             var items = [];
             WizardFindGene.findRegionIDMap = {};
             for (var i = 0; i < descrs.length; i++) {
-                var descr = '<b>{chrom}:{p1}-{p2}</b><br>{id}'.DQXformat({ id: ids[i], chrom: MetaData.annotationTanslateChromoId(chromid), p1: startlist[i], p2: endlist[i], id: names[i] });
+                var descr = '<b>{chrom}:{p1}-{p2}</b><br>{id}'.DQXformat({ id: ids[i], chrom: MetaData.annotationTranslateChromoId(chromid), p1: startlist[i], p2: endlist[i], id: names[i] });
                 items.push({ id: 'id' + i, content: descr });
                 WizardFindGene.findRegionIDMap['id' + i] = ids[i];
             }
@@ -194,7 +194,7 @@
                 var val_stop = parseInt(str_stop);
                 WizardFindGene.setSearchResultMessage_Region('Fetching search hits...');
                 var whc = SQL.WhereClause.AND([
-                    SQL.WhereClause.CompareFixed('chromid', '=', MetaData.annotationTanslateChromoId(chromid)),
+                    SQL.WhereClause.CompareFixed('chromid', '=', MetaData.annotationTranslateChromoId(chromid)),
                     SQL.WhereClause.CompareFixed('fstop', '>=', str_start),
                     SQL.WhereClause.CompareFixed('fstart', '<=', str_stop),
                     SQL.WhereClause.CompareFixed('ftype', '=', 'gene'),

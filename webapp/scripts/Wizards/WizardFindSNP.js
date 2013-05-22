@@ -24,8 +24,7 @@
         WizardFindSNP.setTitle("Find [@snp]");
 
         var searchOptions = [
-            { id: 'PickFromList', name: 'Select from a list of known resistmarkers' },
-            { id: 'FindByID', name: 'By [@snp] ID' },
+            { id: 'FindByID', name: 'By rs ID' },
             { id: 'findByGeneStep1', name: 'By gene' },
             { id: 'FindByRegion', name: 'By genomic region' }
             ];
@@ -113,7 +112,7 @@
             reportValidationError: function () {
                 if (!WizardFindSNP.resultListSNPInGene.getValue()) return "There is no [@snp] selected";
             },
-            onStart: function () { WizardFindSNP.loadGeneSNPList(WizardFindSNP.findGene.getValue()); },
+            onStart: function () { WizardFindSNP.loadGeneSNPList(WizardFindSNP.findGene.getGeneName(),WizardFindSNP.findGene.getGeneChromID(),WizardFindSNP.findGene.getGeneStartPos(), WizardFindSNP.findGene.getGeneStopPos()); },
             onFinish: function () {
                 WizardFindSNP.setResult(WizardFindSNP.mapSNPIDByGene[WizardFindSNP.resultListSNPInGene.getValue()]);
             }
@@ -121,7 +120,7 @@
 
         WizardFindSNP._respond_loadGeneSNPList = function (geneid, data) {
             if (data.snpid.length == 0) {
-                WizardFindSNP.resultListSNPInGene.getJQElement('').html('<i>There are no [@snps] reported in this gene</i>');
+                WizardFindSNP.resultListSNPInGene.getJQElement('').html(DQX.interpolate('<i>There are no [@snps] reported in this gene</i>'));
             }
             else {
                 var items = [];
@@ -129,7 +128,7 @@
                 for (var i = 0; i < data.snpid.length; i++) {
                     items.push({
                         id: 'id' + i,
-                        content: '{geneid}, {id}, <b>{mutat}</b>'.DQXformat({ geneid: geneid, id: data.snpid[i], mutat: data.MutName[i] })
+                        content: '{geneid}, {id}'.DQXformat({ geneid: geneid, id: data.snpid[i] })
                     });
                     WizardFindSNP.mapSNPIDByGene['id' + i] = data.snpid[i];
                 }
@@ -138,15 +137,16 @@
             DQX.stopProcessing();
         }
 
-        WizardFindSNP.loadGeneSNPList = function (geneid) {
+        WizardFindSNP.loadGeneSNPList = function (geneid,chromID,startPos,stopPos) {
             WizardFindSNP.resultListSNPInGene.setItems([], '');
             var whc = SQL.WhereClause.AND([
-                SQL.WhereClause.CompareFixed('GeneId', '=', geneid),
+                SQL.WhereClause.CompareFixed('chrom', '=', MetaData.annotationInvTranslateChromoId(chromID)),
+                SQL.WhereClause.CompareFixed('pos', '>=', startPos),
+                SQL.WhereClause.CompareFixed('pos', '<=', stopPos),
             ]);
-            var fetcher = DataFetcher.RecordsetFetcher(serverUrl, MetaData.database, MetaData.tableSNPInfo);
+            var fetcher = DataFetcher.RecordsetFetcher(serverUrl, MetaData.database, MetaData.tableSnpData);
             fetcher.setMaxResultCount(1001);
             fetcher.addColumn('snpid', 'ST');
-            fetcher.addColumn('MutName', 'ST');
             DQX.setProcessing("Downloading...");
             fetcher.getData(whc, "pos",
                 function (data) { WizardFindSNP._respond_loadGeneSNPList(geneid, data) },
@@ -161,9 +161,9 @@
 
         var chromlist = [];
         $.each(MetaData.chromosomes, function (idx, chrom) {
-            chromlist.push({ id: idx + 1, name: chrom.name });
+            chromlist.push({ id: chrom.id, name: chrom.name });
         });
-        WizardFindSNP.searchChromosome = Controls.Combo('SearchRegionChromosome', { label: 'Chromosome:', value: 'NRAF', states: chromlist }).setHasDefaultFocus();
+        WizardFindSNP.searchChromosome = Controls.Combo('SearchRegionChromosome', { label: 'Chromosome:', value: '', states: chromlist }).setHasDefaultFocus();
         WizardFindSNP.searchStart = Controls.Edit('SearchRegionStart', { size: 10 });
         WizardFindSNP.searchEnd = Controls.Edit('SearchRegionEnd', { size: 10 });
         var handleModifiedStart = function () { WizardFindSNP.handleModifiedStart(); };
@@ -201,7 +201,7 @@
         });
 
         WizardFindSNP.setSearchResultMessage_Region = function (msg) {
-            WizardFindSNP.resultList_Region.getJQElement('').html('<i> ' + msg + '</i>');
+            WizardFindSNP.resultList_Region.getJQElement('').html(DQX.interpolate('<i> ' + msg + '</i>'));
         }
 
         WizardFindSNP._respond_findSNPsInRegion = function (data) {
@@ -212,7 +212,7 @@
             var items = [];
             WizardFindSNP.findRegionIDMap = {};
             for (var i = 0; i < data.snpid.length; i++) {
-                var descr = '{id}; {geneid}; <b>{mutname}</b> ({descr})'.DQXformat({ id: data.snpid[i], geneid: data.GeneId[i], mutname: data.MutName[i], descr: data.GeneDescription[i] });
+                var descr = '{id}'.DQXformat({ id: data.snpid[i] });
                 items.push({ id: 'id' + i, content: descr });
                 WizardFindSNP.findRegionIDMap['id' + i] = data.snpid[i];
             }
@@ -242,7 +242,7 @@
             WizardFindSNP._currentSearchNr++;
             var thisSearchNr = WizardFindSNP._currentSearchNr;
             WizardFindSNP.resultList_Region.setItems([], '');
-            var chromnr = WizardFindSNP.searchChromosome.getValue();
+            var chromid = WizardFindSNP.searchChromosome.getValue();
             var str_start = WizardFindSNP.searchStart.getValue();
             var str_stop = WizardFindSNP.searchEnd.getValue();
             if (str_start && str_stop) {
@@ -250,16 +250,13 @@
                 var val_stop = parseInt(str_stop);
                 WizardFindSNP.setSearchResultMessage_Region('Fetching search hits...');
                 var whc = SQL.WhereClause.AND([
-                    SQL.WhereClause.CompareFixed('chrom', '=', chromnr),
+                    SQL.WhereClause.CompareFixed('chrom', '=', chromid),
                     SQL.WhereClause.CompareFixed('pos', '>=', str_start),
                     SQL.WhereClause.CompareFixed('pos', '<=', str_stop),
                 ]);
-                var fetcher = DataFetcher.RecordsetFetcher(serverUrl, MetaData.database, MetaData.tableSNPInfo);
+                var fetcher = DataFetcher.RecordsetFetcher(serverUrl, MetaData.database, MetaData.tableSnpData);
                 fetcher.setMaxResultCount(501);
                 fetcher.addColumn('snpid', 'ST');
-                fetcher.addColumn('MutName', 'ST');
-                fetcher.addColumn('GeneId', 'ST');
-                fetcher.addColumn('GeneDescription', 'ST');
                 fetcher.getData(whc, "snpid",
                     function (data) {
                         if (thisSearchNr == WizardFindSNP._currentSearchNr)
@@ -276,46 +273,6 @@
 
 
         WizardFindSNP.initialise = function () {
-
-            ///////////////////////////////////////////////////////////////////////////////////////
-            // Search Method: select from known resistance marker list
-            //note: this is constructed jit beforte the wizard starts the first time, because it needs data fetched from the server
-            ///////////////////////////////////////////////////////////////////////////////////////
-
-            var resistanceGenesMap = {};
-            var MetaData2 = thePage.metaData2
-            var resistSNPInfolist = [];
-            for (var i = 0; i < MetaData2.genes.length; i++) {
-                var gene = MetaData2.genes[i];
-                resistanceGenesMap[MetaData2.genes[i].Name] = gene;
-                $.each(MetaData2.genes[i].snps, function (idx, snp) {
-                    resistSNPInfolist.push({
-                        id: snp.GenomicRegion.replace(':', '_chromosep_'),
-                        content: '<b>' + gene.Name + ', ' + snp.Name + '</b> (' + gene.Description + ')'
-                    });
-                });
-            }
-
-            var resistanceMarkerList = Controls.List('ResistanceMarkerList', {
-                width: 550,
-                height: 320
-            });
-
-            resistanceMarkerList.setItems(resistSNPInfolist, resistSNPInfolist[0].id);
-
-
-            WizardFindSNP.addPage({
-                id: 'PickFromList',
-                helpUrl: 'Doc/WizardFindSNP/Help.htm',
-                form: Controls.CompoundVert([Controls.Static('Select a [@resistmarker]:').makeComment(), resistanceMarkerList]),
-                onFinish: function () {
-                    WizardFindSNP.setResult(WizardFindSNP.getPage('PickFromList').form.findControl('ResistanceMarkerList').getValue().replace('_chromosep_', ':'));
-                }
-            });
-
-            //double-click on list equivalent to pressing next.
-            resistanceMarkerList.setOnDoubleClick(function () { WizardFindSNP._onNext() });
-
         }
 
         ////////////// Execute the wizard /////////////////////////////
@@ -349,7 +306,7 @@
         WizardFindSNP.init = function () {
             Msg.listen('', { type: 'WizardFindSNP' }, function (context) {
                 WizardFindSNP.execute(function () {
-                    require(DQXSC("Msg")).send({ type: 'ShowSNPPopup' }, WizardFindSNP.resultSnpID);
+                    Msg.send({ type: 'ShowSNPPopup' }, WizardFindSNP.resultSnpID);
                 });
             });
         }

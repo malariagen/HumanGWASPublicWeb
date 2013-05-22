@@ -77,7 +77,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     Msg.listen('', { type: 'ZoomFactorXChanged', id: this.panelBrowser.myID }, $.proxy(that.updateChannelVisibility, that));
 
                     //Annotation table has 'chrX' chromosome identifiers rather than numbers, so we translate them
-                    this.panelBrowser.getAnnotationFetcher().translateChromoId = MataData.annotationTanslateChromoId;
+                    this.panelBrowser.getAnnotationFetcher().translateChromoId = MetaData.annotationTranslateChromoId;
 
                     //Define the chromosomes
                     $.each(MetaData.chromosomes, function (idx, chromo) {

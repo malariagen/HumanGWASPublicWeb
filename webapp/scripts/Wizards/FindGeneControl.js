@@ -43,13 +43,21 @@
                     }
                     else {
                         this.idMap = {};
+                        this.nameMap = {};
+                        this.chromIDMap = {};
+                        this.posStartMap = {};
+                        this.posStopMap = {};
                         var items = [];
                         for (var i = 0; i < descrs.length; i++) {
                             var txt = genelist[i];
                             txt = DQX.highlightText(txt, pattern);
                             var descr = txt + ' ({id}; {chrom}:{p1}-{p2})'.DQXformat({ id: ids[i], chrom: chromidlist[i], p1: startlist[i], p2: endlist[i] });
                             items.push({ id: 'id' + i, content: descr });
+                            this.nameMap['id' + i] = genelist[i];
                             this.idMap['id' + i] = ids[i];
+                            this.chromIDMap['id' + i] = chromidlist[i];
+                            this.posStartMap['id' + i] = startlist[i];
+                            this.posStopMap['id' + i] = endlist[i];
                         }
                         this.resultList.setItems(items, 'id0');
                         this._hasValidGeneList = true;
@@ -96,6 +104,31 @@
                     if (!id) return '';
                     return this.idMap[id];
                 }
+
+                that.getGeneName = function () {
+                    var id = this.resultList.getValue();
+                    if (!id) return '';
+                    return this.nameMap[id];
+                }
+
+                that.getGeneChromID = function () {
+                    var id = this.resultList.getValue();
+                    if (!id) return null;
+                    return this.chromIDMap[id];
+                }
+
+                that.getGeneStartPos = function () {
+                    var id = this.resultList.getValue();
+                    if (!id) return null;
+                    return this.posStartMap[id];
+                }
+
+                that.getGeneStopPos = function () {
+                    var id = this.resultList.getValue();
+                    if (!id) return null;
+                    return this.posStopMap[id];
+                }
+
 
                 that.setHasDefaultFocus = function () {
                     this.searchText.setHasDefaultFocus();

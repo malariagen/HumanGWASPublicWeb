@@ -14,7 +14,12 @@ define([DQXSC("Utils"), "scripts/helper/log10.js"],
         MetaData.tableSampleContextInfo = 'sample_context'; //Information about study contexts
 
         MetaData.tableAnnotation = 'refGeneConverted';
-        MetaData.annotationTanslateChromoId = function (id) { return 'chr' + parseInt(id, 10); }
+        MetaData.annotationTranslateChromoId = function (id) { return 'chr' + parseInt(id, 10); }
+        MetaData.annotationInvTranslateChromoId = function (id) {
+            var nr = id.slice(3);
+            if (nr.length < 2) nr = '0' + nr;
+            return nr;
+        }
 
         MetaData.chromosomes = [
             { "id": "01", "name": "01", "len": 250 },

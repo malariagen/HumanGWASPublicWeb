@@ -33,6 +33,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                 that.createPanels = function () {
 
                     this.createPanelPopQuery();
+                    this.createPanelGeneQuery();
 
                     this.theTableFetcher = new DataFetcher.Table(serverUrl,
                         MetaData.database,
@@ -73,10 +74,19 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     });
 
                     //we start by defining a query that returns nothing
-                    this.theTableFetcher.setUserQuery1(SQL.WhereClause.Trivial());
-                    this.panelTable.myTable.setQuery(SQL.WhereClause.Trivial());
-                    this.panelTable.myTable.render();
-                    this.panelTable.myTable.reLoadTable();
+                    if (true) {
+                        this.theTableFetcher.setUserQuery1(SQL.WhereClause.Trivial());
+                        this.panelTable.myTable.setQuery(SQL.WhereClause.Trivial());
+                        this.panelTable.myTable.render();
+                        this.panelTable.myTable.reLoadTable();
+                    }
+
+                    //Make sure that the query results are reset each time another type of query is chosen
+                    Msg.listen('', { type: 'ChangeTab', id: 'CatVariatQueries' }, function () {
+                        that.invalidateQuery();
+                        if (that.frameQueryGene.isVisible())
+                            that.updateGeneQuery();
+                    });
 
                 };
 
@@ -140,6 +150,76 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                 };
 
 
+                that.createPanelGeneQuery = function () {
+                    this.panelPopGene = Framework.Form(this.frameQueryGene);
+                    var theForm = this.panelPopGene;
+
+                    var bt = Controls.Button('CatVariatQueryGeneFindGene', { buttonClass: 'DQXToolButton1', bitmap: 'Bitmaps/Icons/Small/MagGlassG.png', width: 210, height: 36, content: "Select gene to display [@snps] for..." })
+                        .setOnChanged(this.promptGene);
+
+                    this.frameQueryGene.activeGene = Controls.Html('CatVariatQueryGeneActiveGene', '<i>There is currently no gene selected</i>');
+                    theForm.addControl(Controls.CompoundVert([bt, this.frameQueryGene.activeGene]));
+
+                    theForm.render();
+                };
+
+                that.promptGene = function () {
+                    require("Wizards/WizardFindGene").execute(function () {
+                        that.activateGene(WizardFindGene.resultGeneID);
+                    });
+                };
+
+                //Call this function to activate the variant catalog panel, and show SNPs for a specific gene
+                that.activateGene = function (geneid) {
+                    this.activateState();
+                    this.frameQueryGene.makeVisible();
+                    this.frameQueryGene.geneid = geneid;
+                    this.updateGeneQuery();
+                }
+
+                that.updateGeneQuery = function (data) {
+                    if (!this.frameQueryGene.geneid) return;
+                    var geneid = this.frameQueryGene.geneid;
+                    //fetch the full gene data
+                    var myurl = DQX.Url(serverUrl);
+                    myurl.addUrlQueryItem("datatype", 'recordinfo');
+                    myurl.addUrlQueryItem("qry", SQL.WhereClause.encode(SQL.WhereClause.CompareFixed('fid', '=', geneid)));
+                    myurl.addUrlQueryItem("database", MetaData.database);
+                    myurl.addUrlQueryItem("tbname", MetaData.tableAnnotation);
+                    $.ajax({
+                        url: myurl.toString(),
+                        success: function (resp) {
+                            DQX.stopProcessing();
+                            var keylist = DQX.parseResponse(resp);
+                            if ("Error" in keylist) {
+                                alert(keylist.Error);
+                                return;
+                            }
+                            that.respondUpdateGeneQuery(keylist.Data);
+                        },
+                        error: DQX.createMessageFailFunction()
+                    });
+                    DQX.setProcessing("Downloading...");
+                };
+
+
+                that.respondUpdateGeneQuery = function (data) {
+                    var content = "<h2>Active gene: " + data.fname + "</h2><p/>";
+                    content += data.chromid + ':' + data.fstart + '-' + data.fstop;
+                    this.frameQueryGene.activeGene.modifyValue(content);
+
+
+                    var thequery = SQL.WhereClause.AND();
+                    thequery.addComponent(SQL.WhereClause.CompareFixed('chrom', '=', MetaData.annotationInvTranslateChromoId(data.chromid)));
+                    thequery.addComponent(SQL.WhereClause.CompareFixed('pos', '>=', data.fstart));
+                    thequery.addComponent(SQL.WhereClause.CompareFixed('pos', '<=', data.fstop));
+                    this.panelTable.getTable().setQuery(thequery);
+                    this.panelTable.getTable().reLoadTable();
+                    //this.panelAdvancedQueryBuilder.setQuery(thequery);
+                    this.setCurrentQuery(thequery);
+                }
+
+
                 //This function is called when the user runs a 'population' query
                 that.updatePopQuery = function () {
                     var freqPrefix = 'freq' + '_';
@@ -159,7 +239,6 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     this.panelTable.getTable().setQuery(thequery);
                     this.panelTable.getTable().reLoadTable();
                     //this.panelAdvancedQueryBuilder.setQuery(thequery);
-
                     this.setCurrentQuery(thequery);
                 };
 

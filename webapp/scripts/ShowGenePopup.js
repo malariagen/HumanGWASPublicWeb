@@ -32,7 +32,17 @@
             
             var geneName = data['fname'];
 
-            
+
+            //Genome browser button
+            var args = { buttonClass: 'DQXToolButton2', content: "Show position on genome", width: 150, height: 51 }
+            args.bitmap = "Bitmaps/{bmp}".DQXformat({ bmp: "Icons/Medium/GenomeAccessibility.png" });
+            var bt = Controls.Button(null, args);
+            bt.setOnChanged(function () {
+                Popup.closeIfNeeded(popupID);
+                Msg.send({ type: 'JumpgenomeRegionGenomeBrowser' }, { chromoID: data.chromid, start: parseInt(data.fstart), end: parseInt(data.fstop) });
+            });
+            content += bt.renderHtml();
+
             
             var UniProtButtonArgs = { buttonClass: 'DQXToolButton2', content: 'UniProt', width: 60, height: 20 };
             var UniProtButton = Controls.Button(null, UniProtButtonArgs);
@@ -63,16 +73,14 @@
                 var url = 'http://www.genenames.org/cgi-bin/quick_search.pl?.cgifields=type&type=contains&num=50&search={geneName}&submit=Submit'.DQXformat({ geneName: geneName });
                 window.open(url, '_blank');
             });
+           
             
-            
-            var buttonsList = [];
-            buttonsList.push(UniProtButton);
-            buttonsList.push(EnsemblButton);
-            buttonsList.push(UCSCButton);
-            buttonsList.push(HUGOButton);
-            
-            var verticalButtonsList = Controls.CompoundVert(buttonsList);
-            content += verticalButtonsList.renderHtml();
+
+            var externalLinkGroup = Controls.CompoundVert([
+                Controls.CompoundHor([UniProtButton, EnsemblButton]),
+                Controls.CompoundHor([UCSCButton, HUGOButton])
+            ])/*.setLegend("External databases")*/;
+            content += externalLinkGroup.renderHtml();
             
 
             var popupID = Popup.create("Gene " + data['fname'], content);

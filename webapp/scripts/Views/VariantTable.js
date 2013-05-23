@@ -78,7 +78,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         this.theTableFetcher.setUserQuery1(SQL.WhereClause.Trivial());
                         this.panelTable.myTable.setQuery(SQL.WhereClause.Trivial());
                         this.panelTable.myTable.render();
-                        this.panelTable.myTable.reLoadTable();
+                        //this.panelTable.myTable.reLoadTable();
                     }
 
                     //Make sure that the query results are reset each time another type of query is chosen
@@ -100,9 +100,12 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                 that._onClickHeader = function (scope, id) {
                     var thecol = this.panelTable.getTable().findColumn(id);
                     title = 'Column "{id}"'.DQXformat({ id: thecol.myName.replace('<br>', ' ') });
-                    content = '<br><b>' + thecol.customInfo.name + '</b><br><br>';
-                    if ('createCustomInfo' in thecol.customInfo)
-                        content += thecol.customInfo.createCustomInfo() + '<br><br>';
+                    var content = "";
+                    if (thecol.customInfo) {
+                        content += '<br><b>' + thecol.customInfo.name + '</b><br><br>';
+                        if ('createCustomInfo' in thecol.customInfo)
+                            content += thecol.customInfo.createCustomInfo() + '<br><br>';
+                    }
                     var buttons = [];
                     if (thecol.sortOption) {
                         buttons.push(Controls.Button(null, { buttonClass: 'DQXToolButton2', content: "Sort by<br>increasing value", bitmap: DQXBMP('arrow4down.png'), width: 120, height: 50 })

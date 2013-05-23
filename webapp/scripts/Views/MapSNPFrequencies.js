@@ -222,7 +222,7 @@
                 that.hideInfo = function () {
                     if (this.myMap) {
                         for (var i = 0; i < this.myMap.getOverlayCount(); ) {
-                            if (this.myMap.getOverlay(i).myID.indexOf("GeoFreq") == 0)
+                            if (this.myMap.getOverlay(i).myID.indexOf("MarkerFreq_") == 0)
                                 this.myMap.removeOverlay(this.myMap.getOverlay(i).myID);
                             else
                                 i++;

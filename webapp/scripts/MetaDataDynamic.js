@@ -319,8 +319,8 @@
 
             MetaDataDynamic.snpFieldList = [];
 
-            MetaDataDynamic.snpFieldList.push({ id: "ref", shortName: "Ref.<br>allele", name: "Reference allele", dataTypeID: "Base" });
-            MetaDataDynamic.snpFieldList.push({ id: "nonref", shortName: "Alt.<br>allele", name: "Non-reference allele", dataTypeID: "Base" });
+            MetaDataDynamic.snpFieldList.push({ id: "ref", shortName: "Ref.<br>allele", name: "Reference allele", dataTypeID: "String" });
+            MetaDataDynamic.snpFieldList.push({ id: "nonref", shortName: "Alt.<br>allele", name: "Non-reference allele", dataTypeID: "String" });
 
             var frequencyTypeInfo = 'freq';
             $.each(MetaDataDynamic.populations, function (idx, pop) {

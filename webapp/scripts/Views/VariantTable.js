@@ -15,16 +15,10 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                 that.createFramework = function () {
 
-                    //this.frameQueries = this.getFrame().addMemberFrame(Framework.FrameGroupTab('CatVariatQueries', 0.35))
-                    //    .setMarginsIndividual(0, 5, 0, 0).setDisplayTitle('Query type').setFrameClassClient('DQXForm');
-
                     this.frameQueryPopulation = this.getFrame().addMemberFrame(Framework.FrameFinal('CatVariatQueryPopulation', 0.4))
                         .setDisplayTitle('Query').setMargins(0).setFrameClassClient('DQXForm').setAllowSmoothScrollY();
 
                     this.frameQueryPopulation.InsertIntroBox('Icons/Medium/VariantCatalogue.png', 'Text'/*DQX.Text('IntroCatVariation')*/, 'Doc/CatVariation/Help.htm');
-
-                    //this.frameQueryGene = this.frameQueries.addMemberFrame(Framework.FrameFinal('CatVariatQueryGene', 0.4))
-                    //    .setDisplayTitle('By gene').setMargins(10).setFrameClassClient('DQXForm').setAllowSmoothScrollY();
 
                     this.frameTable = that.getFrame().addMemberFrame(Framework.FrameFinal('table', 0.7))
                         .setMargins(0);
@@ -40,7 +34,6 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                 that.createPanels = function () {
 
                     this.createPanelPopQuery();
-                    this.createPanelGeneQuery();
 
                     this.panelTable = QueryTable.Panel(this.frameTable, this.theTableFetcher, { leftfraction: 50 });
                     this.theTableFetcher.setSortOption(SQL.TableSort(['chrom', 'pos']), false);
@@ -79,11 +72,9 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         that.updatePopQuery();
 
                     //Make sure that the query results are reset each time another type of query is chosen
-                    Msg.listen('', { type: 'ChangeTab', id: 'CatVariatQueries' }, function () {
+/*                    Msg.listen('', { type: 'ChangeTab', id: 'CatVariatQueries' }, function () {
                         that.invalidateQuery();
-                        //if (that.frameQueryGene.isVisible())
-                        //    that.updateGeneQuery();
-                    });
+                    });*/
 
                 };
 
@@ -147,28 +138,6 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         this.currentQuery = qry;
                         Msg.broadcast({ type: 'ModifyCatVariatQuery' }, qry);
                     }
-                };
-
-
-                that.createPanelGeneQuery = function () {
-                /*
-                    this.panelPopGene = Framework.Form(this.frameQueryGene);
-                    var theForm = this.panelPopGene;
-
-                    var bt = Controls.Button('CatVariatQueryGeneFindGene', { buttonClass: 'DQXToolButton1', bitmap: 'Bitmaps/Icons/Small/MagGlassG.png', width: 210, height: 36, content: "Select gene to display [@snps] for..." })
-                        .setOnChanged(this.promptGene);
-
-                    this.frameQueryGene.activeGene = Controls.Html('CatVariatQueryGeneActiveGene', '<i>There is currently no gene selected</i>');
-                    theForm.addControl(Controls.CompoundVert([bt, this.frameQueryGene.activeGene]));
-
-                    theForm.render();
-                    */
-                };
-
-                that.promptGene = function () {
-                    require("Wizards/WizardFindGene").execute(function () {
-                        that.activateGene({ geneid: WizardFindGene.resultGeneID, buffer: 0 });
-                    });
                 };
 
                 //Call this function to activate the variant catalog panel, and show SNPs for a specific gene
@@ -308,11 +277,23 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         that.searchEnd.modifyEnabled(that.searchChromosome.getValue() != '');
                     });
 
-                    var groupRegion = Controls.CompoundVert([
+                    var groupRegion = Controls.CompoundHor();
+                    groupRegion.addControl(
+                    Controls.CompoundVert([
                         this.searchChromosome,
                         Controls.CompoundHor([Controls.Static('<br>Start:&nbsp;'), this.searchStart, Controls.Static('&nbsp;bp')]),
                         Controls.CompoundHor([Controls.Static('<br>Stop:&nbsp;'), this.searchEnd, Controls.Static('&nbsp;bp')])
-                    ]);
+                    ])).treatAsBlock = true;
+
+                    var buttonFindGene = Controls.Button("", { content: 'Find gene...' });
+                    buttonFindGene.setOnChanged(function () {
+                        require("Wizards/WizardFindGene").execute(function () {
+                            that.activateGene({ geneid: WizardFindGene.resultGeneID, buffer: 0 });
+                        });
+                    });
+                    groupRegion.addControl(Controls.HorizontalSeparator(30));
+                    groupRegion.addControl(buttonFindGene);
+
                     groupRegion.setLegend('Genomic region');
 
                     theForm.addControl(groupRegion);

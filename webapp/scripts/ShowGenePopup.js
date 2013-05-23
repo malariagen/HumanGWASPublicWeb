@@ -44,12 +44,22 @@
             content += bt.renderHtml();
 
             //Variant table button
-            var args = { buttonClass: 'DQXToolButton2', content: "Show list of [@snps]", width: 150, height: 51 }
+            var args = { buttonClass: 'DQXToolButton2', content: "[@Snps] in gene", width: 150, height: 51 }
             args.bitmap = "Bitmaps/{bmp}".DQXformat({ bmp: "Icons/Medium/VariantCatalogue.png" });
             var bt = Controls.Button(null, args);
             bt.setOnChanged(function () {
                 Popup.closeIfNeeded(popupID);
-                Msg.send({ type: 'ShowVariantTableGene' }, data.fid);
+                Msg.send({ type: 'ShowVariantTableGene' }, { geneid: data.fid, buffer:0 });
+            });
+            content += bt.renderHtml();
+
+            //Variant table button + buffer
+            var args = { buttonClass: 'DQXToolButton2', content: "[@Snps] in gene and 250k area", width: 150, height: 51 }
+            args.bitmap = "Bitmaps/{bmp}".DQXformat({ bmp: "Icons/Medium/VariantCatalogue.png" });
+            var bt = Controls.Button(null, args);
+            bt.setOnChanged(function () {
+                Popup.closeIfNeeded(popupID);
+                Msg.send({ type: 'ShowVariantTableGene' }, { geneid: data.fid, buffer:250000 });
             });
             content += bt.renderHtml();
 

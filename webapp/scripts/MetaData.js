@@ -46,6 +46,16 @@ define([DQXSC("Utils"), "scripts/helper/log10.js"],
             { "id": "22", "name": "22", "len": 52 }
         ];
 
+        MetaData.chromoIdMap = {};
+        $.each(MetaData.chromosomes, function (idx, chromo) {
+            MetaData.chromoIdMap[chromo.id] = chromo;
+        });
+
+
+        MetaData.isValidChromID = function (chromid) {
+            return (chromid in MetaData.chromoIdMap);
+        }
+
 
         return MetaData;
     });

@@ -72,8 +72,8 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         that.updatePopQuery();
 
                     //Make sure that the query results are reset each time another type of query is chosen
-/*                    Msg.listen('', { type: 'ChangeTab', id: 'CatVariatQueries' }, function () {
-                        that.invalidateQuery();
+                    /*                    Msg.listen('', { type: 'ChangeTab', id: 'CatVariatQueries' }, function () {
+                    that.invalidateQuery();
                     });*/
 
                 };
@@ -160,7 +160,12 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                                     alert(keylist.Error);
                                     return;
                                 }
-                                that.searchChromosome.modifyValue(MetaData.annotationInvTranslateChromoId(keylist.Data.chromid));
+                                var chromid = MetaData.annotationInvTranslateChromoId(keylist.Data.chromid);
+                                if (!MetaData.isValidChromID(chromid)) {
+                                    alert('Chromosome "{chr}" is not in the data set'.DQXformat({ chr: keylist.Data.chromid }));
+                                    return;
+                                }
+                                that.searchChromosome.modifyValue(chromid);
                                 that.searchStart.modifyValue(parseInt(keylist.Data.fstart) - args.buffer);
                                 that.searchEnd.modifyValue(parseInt(keylist.Data.fstop) + args.buffer);
                                 that.updatePopQuery();

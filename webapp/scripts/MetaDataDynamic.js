@@ -114,7 +114,7 @@
             MetaDataDynamic.fetchedTables['_dataCountries'] = {
                 tableName: MetaData.tableCountries,
                 columns: [{ name: "ID" }, { name: "Name" }, { name: "CenterLongit"/*, encoding: "F3"*/ }, { name: "CenterLattit"/*, encoding: "F3"*/}],
-                sortColumn: "Name"
+                sortColumn: "CenterLongit"
             };
 
             MetaDataDynamic.fetchedTables['_dataSites'] = {

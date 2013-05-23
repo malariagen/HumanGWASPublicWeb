@@ -28,6 +28,13 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                     this.frameTable = that.getFrame().addMemberFrame(Framework.FrameFinal('table', 0.7))
                         .setMargins(0);
+
+                    this.theTableFetcher = new DataFetcher.Table(serverUrl,
+                        MetaData.database,
+                        MetaData.tableSnpData);
+                    this.theTableFetcher.showDownload = true;
+                    this.theTableFetcher.positionField = "pos";
+
                 };
 
                 that.createPanels = function () {
@@ -35,11 +42,6 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     this.createPanelPopQuery();
                     this.createPanelGeneQuery();
 
-                    this.theTableFetcher = new DataFetcher.Table(serverUrl,
-                        MetaData.database,
-                        MetaData.tableSnpData);
-                    this.theTableFetcher.showDownload = true;
-                    this.theTableFetcher.positionField = "pos";
                     this.panelTable = QueryTable.Panel(this.frameTable, this.theTableFetcher, { leftfraction: 50 });
                     this.theTableFetcher.setSortOption(SQL.TableSort(['chrom', 'pos']), false);
 

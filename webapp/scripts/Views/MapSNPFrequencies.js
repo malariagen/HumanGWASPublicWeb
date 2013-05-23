@@ -96,7 +96,7 @@
                     this.hideInfo();
 
                     //Initiate the download of area frequencies
-                    var dataFetcher = this.myPage.GenomeBrowserView.dataFetcherSNPs;
+                    var dataFetcher = that.myPage.VariantTableView.theTableFetcher;
                     dataFetcher.fetchFullRecordInfo(
                         SQL.WhereClause.CompareFixed('snpid', '=', snpid),
                         $.proxy(that._callbackShowSnpFrequencies, that), DQX.createMessageFailFunction()

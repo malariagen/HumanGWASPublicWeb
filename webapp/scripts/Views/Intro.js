@@ -47,6 +47,8 @@
                     navSectionDiv.addStyle("position", "absolute");
                     navSectionDiv.addStyle("right", "0px");
                     navSectionDiv.addStyle("top", "0px");
+                    navSectionDiv.addStyle("padding-top", "3px");
+                    navSectionDiv.addStyle("padding-right", "5px");
                     this.createNavigationButton("HeaderPrevious", navSectionDiv, 'Bitmaps/Icons/Small/Back.png', DQX.Text("NavButtonPrevious"), "DQXToolButton3", 100, function () { Msg.send({ type: 'Back' }) });
                     this.createNavigationButton("HeaderHome", navSectionDiv, 'Bitmaps/Icons/Small/Home.png', DQX.Text("NavButtonIntro"), "DQXToolButton3", 100, function () { Msg.send({ type: 'Home' }) });
                     this.createNavigationButton("HeaderFindSNP", navSectionDiv, 'Bitmaps/Icons/Small/MagGlassV.png'/*DQXBMP('magnif2.png')*/, DQX.Text("NavButtonFindSNP"), "DQXToolButton1", 100, function () { Msg.send({ type: 'WizardFindSNP' }); });
@@ -105,7 +107,7 @@
                     var jumpStarts = [
                         {
                             id: 'IntroVariantTable',
-                            name: "Variant table",
+                            name: "Browse <b>variants</b> and allele frequencies",
                             bitmap: 'Bitmaps/Icons/Medium/VariantCatalogue.png',
                             location: buttondiv1,
                             handler: function () {
@@ -116,7 +118,7 @@
                         },
                         {
                             id: 'IntroGenomeBrowser',
-                            name: "Genome Browser",
+                            name: "Browse the genome",
                             bitmap: 'Bitmaps/Icons/Medium/GenomeAccessibility.png',
                             location: buttondiv1,
                             handler: function () {
@@ -127,7 +129,7 @@
                         },
                         {
                             id: 'IntroStudies',
-                            name: "Studies",
+                            name: "Learn about the contributing <b>studies</b>",
                             bitmap: 'Bitmaps/Icons/Medium/PartnerStudies.png',
                             location: buttondiv1,
                             handler: function () {

@@ -30,8 +30,8 @@
                     this.myFetcher.IsDataReady(PosMin, PosMax, false);
                     var points = this.myFetcher.getColumnPoints(PosMin, PosMax, "snpid");
                     var xvals = points.xVals;
-                    drawInfo.centerContext.fillStyle = DQX.Color(1.0, 0.75, 0.0).toStringCanvas();
-                    drawInfo.centerContext.strokeStyle = DQX.Color(0.0, 0.0, 0.0).toString();
+                    drawInfo.centerContext.fillStyle = DQX.Color(1.0, 0.75, 0.0,0.6).toStringCanvas();
+                    drawInfo.centerContext.strokeStyle = DQX.Color(0.0, 0.0, 0.0,0.6).toStringCanvas();
                     this._pointsX = [];
                     var pointsX = this._pointsX;
                     this._pointsIndex = [];

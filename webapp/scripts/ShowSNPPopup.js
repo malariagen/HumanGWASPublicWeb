@@ -7,18 +7,35 @@
         var ShowSNPPopup = {}
 
 
+        var renderValueBar = function (frac, fracStyle) {
+            var frac = Math.min(1, frac);
+            var rs = '';
+            if (frac > 0.01)
+                rs += '<div class="{fracStyle}" style="height:10px;width:{prc}%;overflow:visible;padding-top:2px;padding-bottom:2px">'.DQXformat({ prc: 100 * frac, fracStyle: fracStyle });
+            if (frac > 0.01)
+                rs += '<div>';
+            return rs;
+        }
+
+
         ShowSNPPopup.createPopup = function (data) {
             var snpid = data.snpid;
             var content = '';
 
-            content += '<table class="DQXStyledTable" style="background-color:white"><tr><th>Population</th><th>Allele frequency</th></tr>';
+            content += '<table class="DQXStyledTable" style="background-color:white"><tr><th>Population</th><th>Allele frequency</th><th>Graph<div style="width:200px"><div></th></tr>';
             $.each(MetaDataDynamic.populations, function (idx, pop) {
                 content += '<tr>';
                 content += '<td>';
                 content += pop.getControl().renderHtml();
                 content += '</td>';
                 content += "<td style='background-color:" + MetaDataDynamic.funcFraction2Color(data['freq' + '_' + pop.ID]) + "'>";
-                content += MetaDataDynamic.funcFraction2Text(data['freq' + '_' + pop.ID]);
+                var frac = data['freq' + '_' + pop.ID];
+                content += MetaDataDynamic.funcFraction2Text(frac);
+                content += '</td>';
+                content += '<td>';
+                if (frac) {
+                    content += renderValueBar(frac, 'FracBar');
+                }
                 content += '</td>';
                 content += '</tr>';
             });
@@ -40,7 +57,7 @@
             var bt = Controls.Button(null, args);
             bt.setOnChanged(function () {
                 Popup.closeIfNeeded(popupID);
-                Msg.send({ type: 'JumpgenomeRegionGenomeBrowser' }, {chromoID:data.chrom, start:parseInt(data.pos), end:parseInt(data.pos)});
+                Msg.send({ type: 'JumpgenomeRegionGenomeBrowser' }, { chromoID: data.chrom, start: parseInt(data.pos), end: parseInt(data.pos) });
             });
             content += bt.renderHtml();
 

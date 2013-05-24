@@ -274,8 +274,8 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     });
 
                     this.searchChromosome = Controls.Combo('SearchRegionChromosome', { label: 'Chromosome:', value: '01', states: chromosomesAndAll });
-                    this.searchStart = Controls.Edit('SearchRegionStart', { size: 10, value: '0' });
-                    this.searchEnd = Controls.Edit('SearchRegionEnd', { size: 10, value: '10000000' });
+                    this.searchStart = Controls.Edit('SearchRegionStart', { size: 10, value: '' });
+                    this.searchEnd = Controls.Edit('SearchRegionEnd', { size: 10, value: '' });
                     invalidatingList.push(this.searchChromosome); invalidatingList.push(this.searchStart); invalidatingList.push(this.searchEnd);
                     this.searchChromosome.addValueChangedListener(function (id, ctrl) {
                         that.searchStart.modifyEnabled(that.searchChromosome.getValue() != '');

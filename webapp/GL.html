@@ -19,7 +19,15 @@
     <!-- Initialise the profiles used in the genome browser-->
     <script type="text/javascript">
         profiles = [];
-        /*[PROFILES]*/
+        profiles.push({ channelID: "Fb40d40949f", label: "Fixed effect P-value", maxval: 6, propertyClass: "Pan-African effect", defaultVisible:true });
+profiles.push({ channelID: "F138774e5a6", label: "Mean Bayes factor", maxval: 6, propertyClass: "Pan-African effect", defaultVisible:true });
+profiles.push({ channelID: "F96c3d209a5", label: "Fixed effect / sd=0.2", maxval: 6, propertyClass: "Pan-African effect", defaultVisible:false });
+profiles.push({ channelID: "F6501c8538c", label: "Independent effect / sd=0.2", maxval: 6, propertyClass: "Pan-African effect", defaultVisible:false });
+profiles.push({ channelID: "Fe56dd7600a", label: "West-africa-specific / rho=0.9 / sd=0.2", maxval: 6, propertyClass: "Group-specific effect", defaultVisible:false });
+profiles.push({ channelID: "F367d8f9878", label: "West-africa-specific / rho=0.9 / sd=0.7", maxval: 6, propertyClass: "Group-specific effect", defaultVisible:false });
+profiles.push({ channelID: "F59e6827040", label: "East-africa-specific / rho=0.9 / sd=0.2", maxval: 6, propertyClass: "Group-specific effect", defaultVisible:false });
+profiles.push({ channelID: "F2d4d9d859e", label: "East-africa-specific / rho=0.9 / sd=0.75", maxval: 6, propertyClass: "Group-specific effect", defaultVisible:false });
+
     </script>
 
     <script src="scripts/Local/_SetServerUrl.js?<?=time()?" type="text/javascript"></script>

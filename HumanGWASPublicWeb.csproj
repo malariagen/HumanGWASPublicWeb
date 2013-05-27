@@ -58,6 +58,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="webapp\BF.html" />
     <Content Include="webapp\Bitmaps\datagrid2.png" />
     <Content Include="webapp\Bitmaps\dna3.png" />
     <Content Include="webapp\Bitmaps\genotypes.png" />
@@ -65,6 +66,7 @@
     <Content Include="webapp\Bitmaps\malariagen_logo.png" />
     <Content Include="webapp\Bitmaps\ProgressAnimation3.gif" />
     <Content Include="webapp\Bitmaps\world2.png" />
+    <Content Include="webapp\CM.html" />
     <Content Include="webapp\Doc\CookiesPolicy.htm" />
     <Content Include="webapp\Doc\GenomeBrowser\Help.htm" />
     <Content Include="webapp\Doc\SNPFreqMap\Help.htm" />
@@ -72,7 +74,13 @@
     <Content Include="webapp\Doc\VariantTable\Help.htm" />
     <Content Include="webapp\Doc\WizardFindGene\Help.htm" />
     <Content Include="webapp\Doc\WizardFindSNP\Help.htm" />
+    <Content Include="webapp\GH.html" />
+    <Content Include="webapp\GL.html" />
+    <Content Include="webapp\GM.html" />
     <Content Include="webapp\HumanGWASPublicWeb.htm" />
+    <Content Include="webapp\KE.html" />
+    <Content Include="webapp\ML.html" />
+    <Content Include="webapp\MW.html" />
     <Content Include="webapp\scripts\async.js" />
     <Content Include="webapp\scripts\DQX\base64.js" />
     <Content Include="webapp\scripts\DQX\Bitmaps\adddown.png" />
@@ -192,6 +200,7 @@
     <Content Include="webapp\scripts\Wizards\WizardFindGene.js" />
     <Content Include="webapp\scripts\Wizards\WizardFindSNP.js" />
     <Content Include="webapp\Specifics.css" />
+    <Content Include="webapp\TZ.html" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

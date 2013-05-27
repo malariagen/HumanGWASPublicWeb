@@ -254,20 +254,12 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                 that.createProfileChannels = function () {
 
-                    var profiles = [];
-                    profiles.push({
-                        channelID: 'variable2',
-                        label: 'Overall fixed effects',
-                        maxval: 6,
-                        propertyClass: 'Pan-African effect'
-                    });
-
                     var channelVisibilitySwitchList = [];
 
                     $.each(profiles, function (idx, profile) {
                         var channelID = profile.channelID;
                         var label = profile.label;
-                        var defaultVisible = true;
+                        var defaultVisible = profile.defaultVisible;
                         var theChannel = ChannelYVals.Channel(channelID, { minVal: 0, maxVal: profile.maxval });
                         theChannel.propertyClass = profile.propertyClass;
                         channelVisibilitySwitchList.push(theChannel);
@@ -296,6 +288,8 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         summComp.myPlotHints.interruptLineAtAbsent = true;
                         summComp.myPlotHints.drawPoints = false;
                         theChannel.modifyComponentActiveStatus(summCompID, defaultVisible, false);
+
+                        that.panelBrowser.channelModifyVisibility(theChannel.getID(), defaultVisible);
                     });
 
 
@@ -336,7 +330,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                     var controlsList = [];
                     $.each(channelVisibilitySwitchList, function (idx, theChannel) {
-                        var chk = Controls.Check('', { label: theChannel.getTitle(), value: true });
+                        var chk = Controls.Check('', { label: theChannel.getTitle(), value: theChannel.getVisible() });
                         chk.setOnChanged(function () {
                             that.panelBrowser.channelModifyVisibility(theChannel.getID(), chk.getValue());
                             $.each(theChannel.getComponentList(), function (idx2, component) {

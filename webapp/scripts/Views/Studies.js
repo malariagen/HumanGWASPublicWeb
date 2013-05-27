@@ -46,7 +46,7 @@
                     this.frameStudiesList = that.getFrame().addMemberFrame(Framework.FrameFinal('Studylist', 0.35))
                         .setMargins(0).setDisplayTitle('Studies'/*DQX.Text('AllStudies')*/).setMinSize(Framework.dimX, 250).setMargins(0).setAllowScrollBars(false, false);
 
-                    this.frameStudiesList.InsertIntroBox('Icons/Medium/PartnerStudies.png', 'Intro'/*DQX.Text('IntroStudiesView')*/, 'Doc/Studies/Help.htm');
+                    this.frameStudiesList.InsertIntroBox('Icons/Medium/PartnerStudies.png', DQX.Text('IntroStudies'), 'Doc/Studies/Help.htm');
 
                     this.frameStudy = that.getFrame().addMemberFrame(Framework.FrameGroupHor('Study', 0.7))
                         .setSeparatorSize(Framework.sepSizeSmall);

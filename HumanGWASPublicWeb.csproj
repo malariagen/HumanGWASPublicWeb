@@ -65,6 +65,13 @@
     <Content Include="webapp\Bitmaps\malariagen_logo.png" />
     <Content Include="webapp\Bitmaps\ProgressAnimation3.gif" />
     <Content Include="webapp\Bitmaps\world2.png" />
+    <Content Include="webapp\Doc\CookiesPolicy.htm" />
+    <Content Include="webapp\Doc\GenomeBrowser\Help.htm" />
+    <Content Include="webapp\Doc\SNPFreqMap\Help.htm" />
+    <Content Include="webapp\Doc\Studies\Help.htm" />
+    <Content Include="webapp\Doc\VariantTable\Help.htm" />
+    <Content Include="webapp\Doc\WizardFindGene\Help.htm" />
+    <Content Include="webapp\Doc\WizardFindSNP\Help.htm" />
     <Content Include="webapp\HumanGWASPublicWeb.htm" />
     <Content Include="webapp\scripts\async.js" />
     <Content Include="webapp\scripts\DQX\base64.js" />

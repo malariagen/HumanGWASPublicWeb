@@ -36,7 +36,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                 that.createFramework = function () {
                     this.frameLeft = that.getFrame().addMemberFrame(Framework.FrameGroupVert('settings', 0.3))
                         .setMargins(0).setMinSize(Framework.dimX, 380);
-                    this.frameLeft.InsertIntroBox('Icons/Medium/GenomeAccessibility.png', 'Intro'/*DQX.Text('IntroStudiesView')*/, 'Doc/Studies/Help.htm');
+                    this.frameLeft.InsertIntroBox('Icons/Medium/GenomeAccessibility.png', DQX.Text('IntroGenomeBrowser'), 'Doc/GenomeBrowser/Help.htm');
                     this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.7))
                         .setMargins(0).setFixedSize(Framework.dimX, 380);
                     this.frameBrowser = that.getFrame().addMemberFrame(Framework.FrameFinal('browserPanel', 0.7))

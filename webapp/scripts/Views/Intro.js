@@ -106,7 +106,7 @@
                     //List of the buttons we want to have
                     var jumpStarts = [
                         {
-                            id: 'IntroVariantTable',
+                            id: 'IntroButtonVariantTable',
                             name: "Browse <b>variants</b> and allele frequencies",
                             bitmap: 'Bitmaps/Icons/Medium/VariantCatalogue.png',
                             location: buttondiv1,
@@ -117,7 +117,7 @@
                             }
                         },
                         {
-                            id: 'IntroGenomeBrowser',
+                            id: 'IntroButtonGenomeBrowser',
                             name: "Browse <b>GWAS</b> signal on genome",
                             bitmap: 'Bitmaps/Icons/Medium/GenomeAccessibility.png',
                             location: buttondiv1,
@@ -128,7 +128,7 @@
                             }
                         },
                         {
-                            id: 'IntroStudies',
+                            id: 'IntroButtonStudies',
                             name: "Learn about the contributing <b>studies</b>",
                             bitmap: 'Bitmaps/Icons/Medium/PartnerStudies.png',
                             location: buttondiv1,

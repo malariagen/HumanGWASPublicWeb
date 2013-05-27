@@ -18,7 +18,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     this.frameQueryPopulation = this.getFrame().addMemberFrame(Framework.FrameFinal('CatVariatQueryPopulation', 0.4))
                         .setDisplayTitle('Query').setMargins(0).setFrameClassClient('DQXForm').setAllowSmoothScrollY();
 
-                    this.frameQueryPopulation.InsertIntroBox('Icons/Medium/VariantCatalogue.png', 'Text'/*DQX.Text('IntroCatVariation')*/, 'Doc/CatVariation/Help.htm');
+                    this.frameQueryPopulation.InsertIntroBox('Icons/Medium/VariantCatalogue.png', DQX.Text('IntroVariantTable'), 'Doc/VariantTable/Help.htm');
 
                     this.frameTable = that.getFrame().addMemberFrame(Framework.FrameFinal('table', 0.7))
                         .setMargins(0);

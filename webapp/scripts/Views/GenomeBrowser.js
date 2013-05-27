@@ -36,6 +36,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                 that.createFramework = function () {
                     this.frameLeft = that.getFrame().addMemberFrame(Framework.FrameGroupVert('settings', 0.3))
                         .setMargins(0).setMinSize(Framework.dimX, 380);
+                    this.frameLeft.InsertIntroBox('Icons/Medium/GenomeAccessibility.png', DQX.Text('IntroGenomeBrowser'), 'Doc/GenomeBrowser/Help.htm');
                     this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.7))
                         .setMargins(0).setFixedSize(Framework.dimX, 380);
                     this.frameBrowser = that.getFrame().addMemberFrame(Framework.FrameFinal('browserPanel', 0.7))
@@ -253,11 +254,23 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                 that.createProfileChannels = function () {
 
-                    if (true) {//Overall fixed effects channel
-                        var channelID = 'variable2';
-                        var label = 'Overall fixed effects';
+                    var profiles = [];
+                    profiles.push({
+                        channelID: 'variable2',
+                        label: 'Overall fixed effects',
+                        maxval: 6,
+                        propertyClass: 'Pan-African effect'
+                    });
+
+                    var channelVisibilitySwitchList = [];
+
+                    $.each(profiles, function (idx, profile) {
+                        var channelID = profile.channelID;
+                        var label = profile.label;
                         var defaultVisible = true;
-                        var theChannel = ChannelYVals.Channel(channelID, { minVal: 0, maxVal: 6 });
+                        var theChannel = ChannelYVals.Channel(channelID, { minVal: 0, maxVal: profile.maxval });
+                        theChannel.propertyClass = profile.propertyClass;
+                        channelVisibilitySwitchList.push(theChannel);
                         theChannel.setTitle(label);
                         theChannel.setHeight(200, true);
                         that.panelBrowser.addChannel(theChannel, false);
@@ -265,7 +278,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         var summCompList = [];
 
                         var summCompID = 'value_' + 'Max';
-                        var colinfo = that.dataFetcherProfiles.addFetchColumn(this.summaryFolder + '/' + channelID, 'Summ01', summCompID);
+                        var colinfo = that.dataFetcherProfiles.addFetchColumn(that.summaryFolder + '/' + channelID, 'Summ01', summCompID);
                         var summComp = theChannel.addComponent(ChannelYVals.CompFilled(summCompID, that.dataFetcherProfiles, colinfo.myID));
                         summCompList.push(summComp);
                         summComp.setColor(DQX.Color(0, 0, 1), 0.8);
@@ -274,7 +287,16 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         summComp.myPlotHints.drawPoints = false;
                         theChannel.modifyComponentActiveStatus(summCompID, defaultVisible, false);
 
-                    }
+                        var summCompID = 'value_' + 'Q95';
+                        var colinfo = that.dataFetcherProfiles.addFetchColumn(that.summaryFolder + '/' + channelID, 'Summ01', summCompID);
+                        var summComp = theChannel.addComponent(ChannelYVals.CompFilled(summCompID, that.dataFetcherProfiles, colinfo.myID));
+                        summCompList.push(summComp);
+                        summComp.setColor(DQX.Color(1, 0, 0), 0.25);
+                        summComp.myPlotHints.makeDrawLines(3000000.0); //This causes the points to be connected with lines
+                        summComp.myPlotHints.interruptLineAtAbsent = true;
+                        summComp.myPlotHints.drawPoints = false;
+                        theChannel.modifyComponentActiveStatus(summCompID, defaultVisible, false);
+                    });
 
 
                     if (true) {//Create recombination rate channel
@@ -282,6 +304,8 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         var label = 'Recombination rate';
                         var defaultVisible = true;
                         var theChannel = ChannelYVals.Channel(channelID, { minVal: 0, maxVal: 100 });
+                        theChannel.propertyClass = 'Misc';
+                        channelVisibilitySwitchList.push(theChannel);
                         theChannel.setTitle(label);
                         theChannel.setHeight(200, true);
                         that.panelBrowser.addChannel(theChannel, false);
@@ -308,21 +332,34 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         summComp.myPlotHints.drawPoints = false;
                         theChannel.modifyComponentActiveStatus(summCompID, defaultVisible, false);
 
-                        /*                        var chk = Controls.Check('', { label: label, value: defaultVisible });
-                        chk.setOnChanged(function () {
-                        that.panelBrowser.channelModifyVisibility(theChannel.getID(), chk.getValue());
-                        $.each(summCompList, function (idx, summComp) {
-                        summComp.modifyComponentActiveStatus(chk.getValue());
-                        });
-                        that.panelBrowser.render();
-                        });
-                        chk.propertyClass = 'Misc';
-                        controlsList.push(chk);*/
                     }
 
+                    var controlsList = [];
+                    $.each(channelVisibilitySwitchList, function (idx, theChannel) {
+                        var chk = Controls.Check('', { label: theChannel.getTitle(), value: true });
+                        chk.setOnChanged(function () {
+                            that.panelBrowser.channelModifyVisibility(theChannel.getID(), chk.getValue());
+                            $.each(theChannel.getComponentList(), function (idx2, component) {
+                                component.modifyComponentActiveStatus(chk.getValue());
+                            });
+                            that.panelBrowser.render();
+                        });
+                        chk.propertyClass = theChannel.propertyClass;
+                        controlsList.push(chk);
+                    });
 
+                    //Add the checkboxes that control the visibility of the components
+                    var propertyClassesMap = {}
+                    $.each(controlsList, function (idx, control) {
+                        if (!(control.propertyClass in propertyClassesMap)) {
+                            propertyClassesMap[control.propertyClass] = that.panelControls.root.addItem(FrameTree.Branch('' + idx, DocEl.StyledText(control.propertyClass, 'DQXLarge'))).setCanSelect(false);
+                        }
+                        propertyClassesMap[control.propertyClass].addItem(FrameTree.Control(control));
+                    });
+                    this.panelControls.render();
 
                 }
+
 
 
 

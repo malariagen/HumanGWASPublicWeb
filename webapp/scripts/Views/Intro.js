@@ -118,7 +118,7 @@
                         },
                         {
                             id: 'IntroGenomeBrowser',
-                            name: "Browse the genome",
+                            name: "Browse <b>GWAS</b> signal on genome",
                             bitmap: 'Bitmaps/Icons/Medium/GenomeAccessibility.png',
                             location: buttondiv1,
                             handler: function () {

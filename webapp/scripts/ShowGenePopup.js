@@ -34,7 +34,7 @@
 
 
             //Genome browser button
-            var args = { buttonClass: 'DQXToolButton2', content: "Show position on genome", width: 150, height: 51 }
+            var args = { buttonClass: 'DQXToolButton2', content: "Show <b>GWAS</b> signal on genome", width: 150, height: 51 }
             args.bitmap = "Bitmaps/{bmp}".DQXformat({ bmp: "Icons/Medium/GenomeAccessibility.png" });
             var bt = Controls.Button(null, args);
             bt.setOnChanged(function () {
@@ -44,7 +44,7 @@
             content += bt.renderHtml();
 
             //Variant table button
-            var args = { buttonClass: 'DQXToolButton2', content: "[@Snps] in gene", width: 150, height: 51 }
+            var args = { buttonClass: 'DQXToolButton2', content: "<b>[@Snps]</b> in gene", width: 150, height: 51 }
             args.bitmap = "Bitmaps/{bmp}".DQXformat({ bmp: "Icons/Medium/VariantCatalogue.png" });
             var bt = Controls.Button(null, args);
             bt.setOnChanged(function () {
@@ -54,7 +54,7 @@
             content += bt.renderHtml();
 
             //Variant table button + buffer
-            var args = { buttonClass: 'DQXToolButton2', content: "[@Snps] in gene and 250k area", width: 150, height: 51 }
+            var args = { buttonClass: 'DQXToolButton2', content: "<b>[@Snps]</b> in gene and 250k area", width: 150, height: 51 }
             args.bitmap = "Bitmaps/{bmp}".DQXformat({ bmp: "Icons/Medium/VariantCatalogue.png" });
             var bt = Controls.Button(null, args);
             bt.setOnChanged(function () {

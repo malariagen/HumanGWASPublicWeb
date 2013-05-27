@@ -52,7 +52,7 @@
             content += bt.renderHtml();
 
             //Genome browser button
-            var args = { buttonClass: 'DQXToolButton2', content: "Show position on genome", width: 150, height: 51 }
+            var args = { buttonClass: 'DQXToolButton2', content: "Show <b>GWAS</b> signal on genome", width: 150, height: 51 }
             args.bitmap = "Bitmaps/{bmp}".DQXformat({ bmp: "Icons/Medium/GenomeAccessibility.png" });
             var bt = Controls.Button(null, args);
             bt.setOnChanged(function () {

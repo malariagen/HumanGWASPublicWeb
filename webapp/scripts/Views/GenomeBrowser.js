@@ -263,7 +263,10 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         var theChannel = ChannelYVals.Channel(channelID, { minVal: 0, maxVal: profile.maxval });
                         theChannel.propertyClass = profile.propertyClass;
                         channelVisibilitySwitchList.push(theChannel);
-                        theChannel.setTitle(label);
+                        var titleComps = label.split(' / ');
+                        theChannel.setTitle(titleComps[0]);
+                        if (titleComps.length>1)
+                            theChannel.setSubTitle(titleComps.slice(1,999).join(' / '));
                         theChannel.setHeight(200, true);
                         that.panelBrowser.addChannel(theChannel, false);
                         theChannel.setChangeYScale(false, true);
@@ -330,7 +333,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
 
                     var controlsList = [];
                     $.each(channelVisibilitySwitchList, function (idx, theChannel) {
-                        var chk = Controls.Check('', { label: theChannel.getTitle(), value: theChannel.getVisible() });
+                        var chk = Controls.Check('', { label: theChannel.getTitle() + ' ' + theChannel.getSubTitle(), value: theChannel.getVisible() });
                         chk.setOnChanged(function () {
                             that.panelBrowser.channelModifyVisibility(theChannel.getID(), chk.getValue());
                             $.each(theChannel.getComponentList(), function (idx2, component) {

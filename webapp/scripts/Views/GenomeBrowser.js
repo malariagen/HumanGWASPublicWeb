@@ -265,8 +265,8 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                         channelVisibilitySwitchList.push(theChannel);
                         var titleComps = label.split(' / ');
                         theChannel.setTitle(titleComps[0]);
-                        if (titleComps.length>1)
-                            theChannel.setSubTitle(titleComps.slice(1,999).join(' / '));
+                        if (titleComps.length > 1)
+                            theChannel.setSubTitle(titleComps.slice(1, 999).join(' / '));
                         theChannel.setHeight(200, true);
                         that.panelBrowser.addChannel(theChannel, false);
                         theChannel.setChangeYScale(false, true);

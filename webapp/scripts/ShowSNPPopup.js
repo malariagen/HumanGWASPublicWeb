@@ -61,6 +61,17 @@
             });
             content += bt.renderHtml();
 
+            var dbSNPButtonArgs = { buttonClass: 'DQXToolButton2', content: 'dbSNP', width: 60, height: 20 };
+            var dbSNPButton = Controls.Button(null, dbSNPButtonArgs);
+            dbSNPButton.setOnChanged(function () {
+                var url = 'http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs={snpid}'.DQXformat({ snpid:snpid });
+                window.open(url, '_blank');
+            });
+
+            var externalLinkGroup = Controls.CompoundHor([dbSNPButton]);
+            content += '<p/>Links to external databases:<br/>';
+            content += externalLinkGroup.renderHtml();
+
 
             var popupID = Popup.create("[@Snp] " + snpid, content);
         }

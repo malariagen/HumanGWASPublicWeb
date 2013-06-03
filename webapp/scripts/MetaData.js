@@ -5,7 +5,7 @@ define([DQXSC("Utils"), "scripts/helper/log10.js"],
         MetaData.database = 'humangwaspublic';
 
         MetaData.tableCountries = 'countries';
-        MetaData.tableSnpData = 'snpdata_float'; //SNP information (including population frequencies)
+        MetaData.tableSnpData = 'snpdata_float2'; //SNP information (including population frequencies)
         MetaData.tableSiteInfo = 'location'; //Information about sampling sites
         MetaData.tableStudy = 'study'; //Information about studies
         MetaData.tableSampleClassification = 'sample_classification';

@@ -1,4 +1,4 @@
-﻿define([DQXSCRQ(), DQXSC("lib/StyledMarker"), DQXSC("HistoryManager"), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("DocEl"), DQXSC("Popup"), DQXSC("Utils"), DQXSC("Map"), DQXSC("FrameList"), "MetaDataDynamic"],
+﻿define(["require", "DQX/lib/StyledMarker", "DQX/HistoryManager", "DQX/Framework", "DQX/Controls", "DQX/Msg", "DQX/DocEl", "DQX/Popup", "DQX/Utils", "DQX/Map", "DQX/FrameList", "MetaDataDynamic"],
     function (require, StyledMarker, HistoryManager, Framework, Controls, Msg, DocEl, Popup, DQX, Map, FrameList, MetaDataDynamic) {
         var StudiesModule = {
 

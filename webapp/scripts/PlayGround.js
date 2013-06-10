@@ -1,5 +1,5 @@
 ﻿define(
-    [DQXSCRQ(), DQXSC("Framework"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Popup"), DQXSC("PopupFrame"), DQXSC("Controls"), DQXSC("DataFetcher/DataFetchers"),
+    ["require", "DQX/Framework", "DQX/Msg", "DQX/SQL", "DQX/DocEl", "DQX/Popup", "DQX/PopupFrame", "DQX/Controls", "DQX/DataFetcher/DataFetchers",
     "MetaData", "scripts/Externals/d3.min.js", "scripts/Externals/sprintf.min.js", "scripts/helper/log10.js", "scripts/helper/console.js"],
     function (require, Framework, Msg, SQL, DocEl, Popup, PopupFrame, Controls, DataFetchers, MetaData) {
 

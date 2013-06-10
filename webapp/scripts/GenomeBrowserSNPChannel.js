@@ -1,4 +1,4 @@
-﻿define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("Utils"), DQXSC("ChannelPlot/ChannelCanvas"), DQXSC("ChannelPlot/GenomePlotter"), DQXSC("DataFetcher/DataFetchers")],
+﻿define(["require", "DQX/Framework", "DQX/Controls", "DQX/Msg", "DQX/Utils", "DQX/ChannelPlot/ChannelCanvas", "DQX/ChannelPlot/GenomePlotter", "DQX/DataFetcher/DataFetchers"],
     function (require, Framework, Controls, Msg, DQX, ChannelCanvas, GenomePlotter, DataFetchers) {
 
         var GenomeBrowserSNPChannel = {

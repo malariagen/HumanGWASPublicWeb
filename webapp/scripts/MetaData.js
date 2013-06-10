@@ -1,4 +1,4 @@
-define([DQXSC("Utils"), "scripts/helper/log10.js"],
+define(["DQX/Utils", "scripts/helper/log10.js"],
     function (DQX) {
         var MetaData = {};
 

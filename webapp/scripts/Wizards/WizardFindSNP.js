@@ -1,4 +1,4 @@
-﻿define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Popup"), DQXSC("Wizard"), DQXSC("DataFetcher/DataFetchers"), "Wizards/FindGeneControl", "MetaData"],
+﻿define(["require", "DQX/Framework", "DQX/Controls", "DQX/Msg", "DQX/SQL", "DQX/DocEl", "DQX/Popup", "DQX/Wizard", "DQX/DataFetcher/DataFetchers", "Wizards/FindGeneControl", "MetaData"],
     function (require, Framework, Controls, Msg, SQL, DocEl, Popup, Wizard, DataFetcher, FindGeneControl, MetaData) {
         WizardFindSNP = Wizard.Create("WizardFindSNP");
 

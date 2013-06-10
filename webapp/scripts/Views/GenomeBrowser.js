@@ -1,5 +1,5 @@
 ﻿
-define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Utils"), DQXSC("FrameList"), DQXSC("FrameTree"), DQXSC("ChannelPlot/GenomePlotter"), DQXSC("ChannelPlot/ChannelSequence"), DQXSC("ChannelPlot/ChannelSnps"), DQXSC("ChannelPlot/ChannelYVals"), DQXSC("DataFetcher/DataFetcherFile"), DQXSC("DataFetcher/DataFetchers"), DQXSC("DataFetcher/DataFetcherSummary"), "MetaData", "MetaDataDynamic", "GenomeBrowserSNPChannel"],
+define(["require", "DQX/Framework", "DQX/Controls", "DQX/Msg", "DQX/SQL", "DQX/DocEl", "DQX/Utils", "DQX/FrameList", "DQX/FrameTree", "DQX/ChannelPlot/GenomePlotter", "DQX/ChannelPlot/ChannelSequence", "DQX/ChannelPlot/ChannelSnps", "DQX/ChannelPlot/ChannelYVals", "DQX/DataFetcher/DataFetcherFile", "DQX/DataFetcher/DataFetchers", "DQX/DataFetcher/DataFetcherSummary", "MetaData", "MetaDataDynamic", "GenomeBrowserSNPChannel"],
     function (require, Framework, Controls, Msg, SQL, DocEl, DQX, FrameList, FrameTree, GenomePlotter, ChannelSequence, ChannelSnps, ChannelYVals, DataFetcherFile, DataFetchers, DataFetcherSummary, MetaData, MetaDataDynamic, GenomeBrowserSNPChannel) {
 
         var GenomeBrowserModule = {

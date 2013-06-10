@@ -1,4 +1,4 @@
-﻿define([DQXSCRQ(), DQXSC("SVG"), DQXSC("Framework"), DQXSC("Popup"), DQXSC("DocEl"), DQXSC("SQL"), DQXSC("Msg"), DQXSC("Controls"), DQXSC("Map"), DQXSC("DataFetcher/DataFetchers"), "MetaData", "MetaDataDynamic"],
+﻿define(["require", "DQX/SVG", "DQX/Framework", "DQX/Popup", "DQX/DocEl", "DQX/SQL", "DQX/Msg", "DQX/Controls", "DQX/Map", "DQX/DataFetcher/DataFetchers", "MetaData", "MetaDataDynamic"],
     function (require, SVG, Framework, Popup, DocEl, SQL, Msg, Controls, Map, DataFetcher, MetaData, MetaDataDynamic) {
 
         var MapSNPFrequencies = {
@@ -152,7 +152,7 @@
                     this.hideInfo();
                     this.createLegend();
                     var mapObj = this.myMap;
-                    var GMaps = require(DQXSC("Map"));
+                    var GMaps = require("DQX/Map");
                     var freqList = [];
 
                     if (this.dataSnpInfo) {

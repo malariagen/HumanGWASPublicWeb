@@ -1,4 +1,4 @@
-﻿define([DQXSCRQ(), DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("DocEl"), DQXSC("Utils"), "ShowSNPPopup", "PlayGround"],
+﻿define(["require", "DQX/Framework", "DQX/HistoryManager", "DQX/Controls", "DQX/Msg", "DQX/DocEl", "DQX/Utils", "ShowSNPPopup", "PlayGround"],
     function (require, Framework, HistoryManager, Controls, Msg, DocEl, DQX, ShowSNPPopup, PlayGround) {
 
         var IntroModule = {
@@ -51,8 +51,8 @@
                     navSectionDiv.addStyle("padding-right", "5px");
                     this.createNavigationButton("HeaderPrevious", navSectionDiv, 'Bitmaps/Icons/Small/Back.png', DQX.Text("NavButtonPrevious"), "DQXToolButton3", 100, function () { Msg.send({ type: 'Back' }) });
                     this.createNavigationButton("HeaderHome", navSectionDiv, 'Bitmaps/Icons/Small/Home.png', DQX.Text("NavButtonIntro"), "DQXToolButton3", 100, function () { Msg.send({ type: 'Home' }) });
-                    this.createNavigationButton("HeaderFindSNP", navSectionDiv, 'Bitmaps/Icons/Small/MagGlassV.png'/*DQXBMP('magnif2.png')*/, DQX.Text("NavButtonFindSNP"), "DQXToolButton1", 100, function () { Msg.send({ type: 'WizardFindSNP' }); });
-                    this.createNavigationButton("HeaderFindGene", navSectionDiv, 'Bitmaps/Icons/Small/MagGlassG.png'/*DQXBMP('magnif2.png')*/, DQX.Text("NavButtonFindGene"), "DQXToolButton1", 100, function () { Msg.send({ type: 'WizardFindGene' }); });
+                    this.createNavigationButton("HeaderFindSNP", navSectionDiv, 'Bitmaps/Icons/Small/MagGlassV.png'/*DQX.BMP('magnif2.png')*/, DQX.Text("NavButtonFindSNP"), "DQXToolButton1", 100, function () { Msg.send({ type: 'WizardFindSNP' }); });
+                    this.createNavigationButton("HeaderFindGene", navSectionDiv, 'Bitmaps/Icons/Small/MagGlassG.png'/*DQX.BMP('magnif2.png')*/, DQX.Text("NavButtonFindGene"), "DQXToolButton1", 100, function () { Msg.send({ type: 'WizardFindGene' }); });
                     $('#' + this.myHeaderFrame.getClientDivID()).append(navSectionDiv.toString());
                     $('#HeaderHome').mousedown(function () { Msg.send({ type: 'Home' }) });
 

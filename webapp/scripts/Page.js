@@ -1,4 +1,4 @@
-﻿define([DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("DocEl"), DQXSC("Msg"), DQXSC("StaticDocView"), "Views/Intro", "Views/VariantTable", "Views/Studies", "Views/MapSNPFrequencies", "Views/GenomeBrowser", "Wizards/WizardFindGene", "Wizards/WizardFindSNP", "MetaDataDynamic", "ShowSNPPopup", "ShowGenePopup"],
+﻿define(["DQX/Framework", "DQX/HistoryManager", "DQX/DocEl", "DQX/Msg", "DQX/StaticDocView", "Views/Intro", "Views/VariantTable", "Views/Studies", "Views/MapSNPFrequencies", "Views/GenomeBrowser", "Wizards/WizardFindGene", "Wizards/WizardFindSNP", "MetaDataDynamic", "ShowSNPPopup", "ShowGenePopup"],
     function (Framework, HistoryManager, DocEl, Msg, StaticDocView, IntroModule, VariantTableModule, StudiesModule, MapSNPFrequenciesModule, GenomeBrowserModule, WizardFindGene, WizardFindSNP, MetaDataDynamic, ShowSNPPopup, ShowGenePopup) {
         thePage = {
 

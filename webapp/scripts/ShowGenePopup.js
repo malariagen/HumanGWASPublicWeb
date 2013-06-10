@@ -1,4 +1,4 @@
-﻿define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Popup"), DQXSC("Controls"), DQXSC("DataFetcher/DataFetchers"), "MetaData"],
+﻿define(["require", "DQX/Framework", "DQX/Msg", "DQX/SQL", "DQX/DocEl", "DQX/Popup", "DQX/Controls", "DQX/DataFetcher/DataFetchers", "MetaData"],
     function (require, Framework, Msg, SQL, DocEl, Popup, Controls, DataFetchers, MetaData) {
 
 

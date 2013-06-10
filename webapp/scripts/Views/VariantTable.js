@@ -1,5 +1,5 @@
 ﻿
-define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("SQL"), DQXSC("DocEl"), DQXSC("Popup"), DQXSC("Utils"), DQXSC("DataFetcher/DataFetchers"), DQXSC("QueryTable"), "MetaData", "MetaDataDynamic"],
+define(["require", "DQX/Framework", "DQX/Controls", "DQX/Msg", "DQX/SQL", "DQX/DocEl", "DQX/Popup", "DQX/Utils", "DQX/DataFetcher/DataFetchers", "DQX/QueryTable", "MetaData", "MetaDataDynamic"],
     function (require, Framework, Controls, Msg, SQL, DocEl, Popup, DQX, DataFetcher, QueryTable, MetaData, MetaDataDynamic) {
 
         var VariantTableModule = {
@@ -96,13 +96,13 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("S
                     }
                     var buttons = [];
                     if (thecol.sortOption) {
-                        buttons.push(Controls.Button(null, { buttonClass: 'DQXToolButton2', content: "Sort by<br>increasing value", bitmap: DQXBMP('arrow4down.png'), width: 120, height: 50 })
+                        buttons.push(Controls.Button(null, { buttonClass: 'DQXToolButton2', content: "Sort by<br>increasing value", bitmap: DQX.BMP('arrow4down.png'), width: 120, height: 50 })
                             .setOnChanged(function () {
                                 that.panelTable.getTable().sortByColumn(id, false);
                                 if (!Popup.isPinned(popupID))
                                     DQX.ClosePopup(popupID);
                             }));
-                        buttons.push(Controls.Button(null, { buttonClass: 'DQXToolButton2', content: "Sort by<br>decreasing value", bitmap: DQXBMP('arrow4up.png'), width: 120, height: 50 })
+                        buttons.push(Controls.Button(null, { buttonClass: 'DQXToolButton2', content: "Sort by<br>decreasing value", bitmap: DQX.BMP('arrow4up.png'), width: 120, height: 50 })
                             .setOnChanged(function () {
                                 that.panelTable.getTable().sortByColumn(id, true);
                                 if (!Popup.isPinned(popupID))

@@ -96,13 +96,6 @@ define(["require", "DQX/Framework", "DQX/Controls", "DQX/Msg", "DQX/SQL", "DQX/D
 
                     this.createProfileChannels();
 
-                    //Causes the browser to start with a sensible start region
-                    var firstChromosome = MetaData.chromosomes[0].id;
-                    this.panelBrowser.setChromosome(firstChromosome, true, false);
-                    this.panelBrowser.setPostInitialiseHandler(function () {
-                        that.panelBrowser.showRegion(that.panelBrowser.getChromoID(1), 0, MetaData.chromosomes[0].len * 1E6);
-                    });
-
                 };
 
 
